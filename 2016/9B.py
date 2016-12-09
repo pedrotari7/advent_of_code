@@ -11,7 +11,7 @@ def decomp(s):
         
         s = s[s.index(')')+1:]
 
-        total += decomp(s[:dim]) * rep
+        total += decomp(s[:dim])*rep
 
         s = s[dim:]
         
