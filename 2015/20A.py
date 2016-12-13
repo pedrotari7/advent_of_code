@@ -8,7 +8,6 @@ goal = 33100000
 n = 1
 
 while 1:
-	print n
 	if sum([10*l for l in factors(n)]) > goal:
 		print n
 		break

@@ -1,4 +1,4 @@
-with open('12.in','r') as f:
+with open('13.in','r') as f:
 	strings = f.read()
 
 p = 0

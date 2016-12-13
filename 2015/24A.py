@@ -64,14 +64,14 @@ for n1 in xrange(2,len(numbers)-2):
 
 				g3 = tuple(set(remain1) - set(g2))
 
-				print g1,'\t',g2,'\t',g3
+				# print g1,'\t',g2,'\t',g3
 
 				if sum(g1) == sum(g2) and sum(g1) == sum(g3):
-					print (g1,g2,g3)
+					# print (g1,g2,g3)
 					
 					if len(g1) <= min_qe[0]:
 						min_qe = [len(g1),min(min_qe[1],product(g1))]
-						print '\n\n\n\n'
+						# print '\n\n\n\n'
 						break
 
 
