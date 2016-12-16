@@ -28,4 +28,3 @@ while p < len(insts) and p >= 0:
 	p+=1
 
 print r['a']
-

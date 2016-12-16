@@ -1,10 +1,9 @@
-with open('13.in','r') as f:
+with open('12.in','r') as f:
 	strings = f.read()
 
 p = 0
 
 r = {'a':0,'b':0,'c':0,'d':0}
-
 
 def get_value(v):
     try:
