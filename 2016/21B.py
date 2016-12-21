@@ -1,78 +1,34 @@
 with open ('21.in','r') as f:
-    strings = f.read().split('\n')
+    strings = [[int(_) if _.isdigit() else _ for _ in _.split()] for _ in f]
 
+def shift(w,n):
+    return w[n%len(w):] + w[:n%len(w)]
 
 w = list('fbgdceah')
 
-w = list('dbfgaehc')
+m = {0:1,1:1,2:6,3:2,4:7,5:3,6:0,7:4}
 
-w = list('abcde')
+for d in strings[::-1]:
+    if 'swap' in d and 'position' in d:
+        w[d[5]], w[d[2]] = w[d[2]], w[d[5]]
 
-strings = """swap position 4 with position 0
-swap letter d with letter b
-reverse positions 0 through 4
-rotate left 1 step
-move position 1 to position 4
-move position 3 to position 0
-rotate based on position of letter b
-rotate based on position of letter d""".split('\n')
+    elif 'swap' in d and 'letter' in d:
+        w = [d[2] if l == d[5] else d[5] if l in [d[2],d[5]] else l for l in w]
 
+    elif 'reverse' in d:
+        w = w[:d[2]] + w[d[2]:d[4]+1][::-1] + w[d[4]+1:]
 
+    elif 'rotate' in d and ('step' in d or 'steps' in d):
+        w = shift(w,(-1)**('left' in d)*d[2])
 
+    elif 'rotate' in d and 'position' in d:
+        w = shift(w,m[w.index(d[-1])])
 
-for s in strings[::-1]:
-    print ''.join(w), s
-    d = s.split()
-    if d.count('position') == 2 and 'swap' in d:
-        w[int(d[5])], w[int(d[2])] = w[int(d[2])], w[int(d[5])]
-    elif d.count('letter') == 2:
-        for i,l in enumerate(w):
-            if l == d[5]:
-                w[i] = d[2]
-            elif l == d[2]:
-                w[i] = d[5]
-    elif 'step' in d or 'steps' in d:
-        if 'right' in d:
-            n =  (int(d[2])%len(w))
-        elif 'left' in d:
-            n =  -1*int(d[2])%len(w)
-        w = w[n:] + w[:n]
-
-    elif 'position' in d and 'letter' in d:
-        if d[-1] in w:
-            ind = w.index(d[-1])
-            # if w.index(d[-1]) >= 4:
-            #     ind+=1
-        # else:
-        #     ind = 1
-        else:
-            ind = 1 
-        n =  1*(ind%len(w))
-
-        w = w[n:] + w[:n]
-
-    elif 'through' in d:
-        n1 = int(d[2])
-        n2 = int(d[4])
-
-        n_w = w[:n1] + w[n1:n2+1][::-1] + w[n2+1:]
-
-        w = n_w
-
-        # if n2 != len(w)-1:
-        #   n_w += n_w[n2]
-
-    elif d.count('position') == 2 and 'move' in d:
-        n1 = int(d[2])
-        n2 = int(d[5])
-
+    elif 'move' in d:
+        n2, n1 = d[2], d[5]
         if n2 > n1:
             w = w[:n1] + w[n1+1:n2+1] + [w[n1]] + w[n2+1:]
         elif n2 < n1:
-            w = w[:n2] + [w[n1]]  + w[n2:n1] + w[n1+1:]         
-
-
-
-
+            w = w[:n2] + [w[n1]] + w[n2:n1] + w[n1+1:] 
 
 print ''.join(w)
