@@ -4,7 +4,7 @@ def print_floors(f,e):
 	for i,l in enumerate(f):
 		if i == e:
 			print 'E',
-		print '\t', 	
+		print '\t',
 		if len(l) == 0:
 			print '-',
 		else:
@@ -76,14 +76,6 @@ set([('CO','M'),('CU','M'),('R','M'),('PL','M')]),
 set([('CO','G'),('CU','G'),('R','G'),('PL','G')]),
 set([('PR','G'),('PR','M')])
 ]
-
-# floors = [
-# set([]),
-# set([('L','G')]),
-# set([('H','G')]),
-# set([('H','M'),('L','M')])
-# ]
-
 
 move(floors,3,0,[])
 

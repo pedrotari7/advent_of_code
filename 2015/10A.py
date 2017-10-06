@@ -1,4 +1,3 @@
-
 current_n = '1113222113'
 
 for n in xrange(40):

@@ -40,7 +40,7 @@ cities = dict()
 for d in dists.split('\n'):
 	temp = [l.strip() for l in [c for c in d.split('=')][0].split(' to ')]
 	dist = int(d.split('=')[1])
-	
+
 	if temp[1] in cities:
 		cities[temp[1]].append((temp[0],dist))
 	else:

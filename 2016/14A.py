@@ -11,7 +11,7 @@ def has_five(k,pos):
 
 
 def clean_p(pos,ind):
-	return [i for i in pos if ind <= i[1]+1000]	
+	return [i for i in pos if ind <= i[1]+1000]
 
 valid = []
 salt = 'zpqevtbw'
@@ -21,7 +21,7 @@ while final == 0:
 	key = salt + str(i)
 
 	md = md5.new(key).hexdigest()
-	
+
 	res = has_five(md,valid)
 
 	valid += is_valid(md,i)
