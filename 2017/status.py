@@ -59,6 +59,15 @@ def get_problem_input(n, event, cookie):
                 print green('Data saved in Input file '+n+'.in!', bg='black')
     else:
         print red('Input file '+n+'.in'+' already exits!', bg='black')
+    template = open('../template.py', 'r').read()
+    for l in ['A','B']:
+        if not os.path.exists(n+l+'.py'):
+            with open(n+l+'.py', 'w') as f:
+                f.write(template.format(n))
+            print green('Python file '+n+l+'.py generated!', bg='black')
+        else:
+            print red('Python file '+n+l+'.py'+' already exits!', bg='black')
+
 
 def colorify_text(text, sep, color, bg='black'):
     print repr(text)
