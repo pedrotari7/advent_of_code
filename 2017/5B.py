@@ -1,4 +1,4 @@
-a = map(int,map(str.strip,open('5.in')))
+a = map(int,open('5.in'))
 n,i,c = len(a),0,0
 
 while i < n:

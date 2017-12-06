@@ -24,10 +24,10 @@ def print_leaderbord(members):
             print str(member['local_score']).ljust(6,' '),
             print top-member['local_score']
 
-def print_problem(n, members):
+def print_problem(n,year,members):
     time_str = r"%Y-%m-%dT%H:%M:%S"
     print 'Problem', n.ljust(19),blue('  1st Star',bg='black'), yellow('    2nd Star',bg='black') + '\n' + '-'*51
-    start_time = dt.strptime('2017-12-' + n.zfill(2) + 'T00:00:00', time_str)
+    start_time = dt.strptime(year+'-12-' + n.zfill(2) + 'T00:00:00', time_str)
 
     data = []
     for member in members.itervalues():
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     event = '2017'
     private_id = '34481'
     #copy chrome://settings/cookies/detail?site=adventofcode.com session cookie content
-    cookie = {'session':'53616c7465645f5f5e53ddbaea914ebf2eb361bbcf914d98b0bd76f0d81b042edb06c7ab7d22aa6f8f4f26f71d4f70c8'}
+    cookie = {'session':open('session.cookie').read()}
 
     if len(sys.argv)>1 and sys.argv[1].isdigit():
         if len(sys.argv) == 3:
@@ -107,7 +107,7 @@ if __name__ == '__main__':
                 get_problem_description(sys.argv[1], event, cookie)
         else:
             members = get_leaderboard_info(event, private_id, cookie)
-            print_problem(sys.argv[1], members)
+            print_problem(sys.argv[1],event, members)
     else:
         members = get_leaderboard_info(event, private_id, cookie)
         print_leaderbord(members)
