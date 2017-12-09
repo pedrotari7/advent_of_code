@@ -11,7 +11,7 @@ def print_leaderbord(members):
     print ' '.ljust(28)+'  '.join(i for i in map(str,xrange(1,10)))+' '+' '.join(i for i in map(str,xrange(10,26)))+ '  Total  Diff' +'\n'+'-'*117
     for j, member in enumerate(sorted(members.itervalues(), key=lambda y:y['local_score'], reverse=True)):
         if j == 0: top = member['local_score']
-        if member['stars'] > 0:
+        if member['stars'] and member['name']:
             print str(j+1).ljust(2, ' ') + ' ' + member['name'].ljust(24,' '),
             for i in map(str,xrange(1,26)):
                 if i in member['completion_day_level']:
@@ -70,10 +70,8 @@ def get_problem_input(n, event, cookie):
 
 
 def colorify_text(text, sep, color, bg='black'):
-    print repr(text)
     text = text.split(sep)
     for i in xrange(1,len(text),2):
-        print text[i]
         text[i] = eval(color+'(\''+ text[i]+'\')')
     return ' '.join(text)
 
