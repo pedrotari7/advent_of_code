@@ -9,4 +9,3 @@ for i in xrange(len(l)):
     c += (l[i]+i)%s
 
 print r[0]*r[1]
-
