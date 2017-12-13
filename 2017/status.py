@@ -51,7 +51,7 @@ def get_problem_input(n, event, cookie):
     if not os.path.exists(n+'.in'):
         link = 'https://adventofcode.com/' + event + '/day/' + n + '/input'
         data = requests.get(link, cookies=cookie).text
-        if '404' in data:
+        if 'Not Found' in data:
             print red('Input not available!', bg='black')
         else:
             with open(n+'.in', 'w') as f:
