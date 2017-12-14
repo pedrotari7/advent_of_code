@@ -1,6 +1,3 @@
-from itertools import count
-a = eval('{'+open('13.in').read().replace('\n',',')+'}')
-for c in count():
-    if all((l+c)%((a[l]-1)*2) for l in a):
-        break
-print c
+a,d=eval('{'+open('13.in').read().replace('\n',',')+'}'),0
+while any((l+d)%(a[l]*2-2)==0 for l in a):d+=1
+print d
