@@ -8,7 +8,7 @@ from datetime import timedelta
 from colors import blue, yellow, red, green
 
 def print_leaderbord(members):
-    print ' '.ljust(28)+'  '.join(i for i in map(str,xrange(1,10)))+' '+' '.join(i for i in map(str,xrange(10,26)))+ '  Total  Diff' +'\n'+'-'*117
+    print ' '.ljust(28)+'  '.join(i for i in map(str,xrange(1,10)))+' '+' '.join(i for i in map(str,xrange(10,26)))+ '  Total  Diff   G' +'\n'+'-'*120
     for j, member in enumerate(sorted(members.itervalues(), key=lambda y:y['local_score'], reverse=True)):
         if j == 0: top = member['local_score']
         if member['stars'] and member['name']:
@@ -22,7 +22,8 @@ def print_leaderbord(members):
                 else:
                     print '  ',
             print str(member['local_score']).ljust(6,' '),
-            print top-member['local_score']
+            print str(top-member['local_score']).ljust(6,' '),
+            print member['global_score']
 
 def print_problem(n,year,members):
     time_str = r"%Y-%m-%dT%H:%M:%S"
