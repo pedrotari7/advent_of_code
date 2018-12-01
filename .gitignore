@@ -91,3 +91,5 @@ ENV/
 .vscode/
 
 2017/session\.cookie
+
+*.cookie

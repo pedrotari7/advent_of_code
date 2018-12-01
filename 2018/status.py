@@ -9,6 +9,7 @@ from colors import blue, yellow, red, green
 
 def print_leaderbord(members):
     print ' '.ljust(28)+'  '.join(i for i in map(str,xrange(1,10)))+' '+' '.join(i for i in map(str,xrange(10,26)))+ '  Total  Diff   G' +'\n'+'-'*120
+
     for j, member in enumerate(sorted(members.itervalues(), key=lambda y:y['local_score'], reverse=True)):
         if j == 0: top = member['local_score']
         if member['stars'] and member['name']:
@@ -28,16 +29,16 @@ def print_leaderbord(members):
 def print_problem(n,year,members):
     time_str = r"%Y-%m-%dT%H:%M:%S"
     print 'Problem', n.ljust(19),blue('  1st Star',bg='black'), yellow('    2nd Star',bg='black') + '\n' + '-'*51
-    start_time = dt.strptime(year+'-12-' + n.zfill(2) + 'T00:00:00', time_str)
+    start_time = dt.strptime(year+'-12-' + n.zfill(2) + 'T05:00:00', time_str)
 
     data = []
     for member in members.itervalues():
         if n in member['completion_day_level']:
             t1,t2 = timedelta(days=1000), timedelta(days=1000)
             if '1' in member['completion_day_level'][n]:
-                t1 = dt.strptime(member['completion_day_level'][n]['1']['get_star_ts'][:-5], time_str)-start_time
+                t1 = dt.utcfromtimestamp(int(member['completion_day_level'][n]['1']['get_star_ts'])) - start_time
             if '2' in member['completion_day_level'][n]:
-                t2 = dt.strptime(member['completion_day_level'][n]['2']['get_star_ts'][:-5], time_str)-start_time
+                t2 = dt.utcfromtimestamp(int(member['completion_day_level'][n]['2']['get_star_ts'])) - start_time
             data.append((member, t1, t2))
 
     for j, (member, t1, t2) in enumerate(sorted(data, key=lambda x:(x[2],x[1]))):
@@ -93,8 +94,9 @@ def get_leaderboard_info(event, private_id, cookie):
     return json.loads(requests.get(link, cookies=cookie).text)['members']
 
 if __name__ == '__main__':
-    event = '2017'
-    private_id = '34481'
+    event = '2018'
+    private_id = '371692' # current
+    #private_id = '34481' # jesper
     #copy chrome://settings/cookies/detail?site=adventofcode.com session cookie content
     cookie = {'session':open('session.cookie').read()}
 
@@ -109,4 +111,5 @@ if __name__ == '__main__':
             print_problem(sys.argv[1],event, members)
     else:
         members = get_leaderboard_info(event, private_id, cookie)
+
         print_leaderbord(members)
