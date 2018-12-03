@@ -1,1 +1,1 @@
-print(sum([int(_.strip()) for _ in open('1.in')]))
+print(eval(open('1.in').read().replace('\n','')))
