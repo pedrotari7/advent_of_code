@@ -12,8 +12,9 @@ def print_leaderbord(members):
 
     for j, member in enumerate(sorted(members.itervalues(), key=lambda y:y['local_score'], reverse=True)):
         if j == 0: top = member['local_score']
-        if member['stars'] and member['name']:
-            print str(j+1).ljust(2, ' ') + ' ' + member['name'].ljust(24,' '),
+        name = member['name'] if member['name'] else 'Anonymous'
+        if member['stars']:
+            print str(j+1).ljust(2, ' ') + ' ' + name.ljust(24,' '),
             for i in map(str,xrange(1,26)):
                 if i in member['completion_day_level']:
                     if len(member['completion_day_level'][i].keys()) == 1:
@@ -42,7 +43,8 @@ def print_problem(n,year,members):
             data.append((member, t1, t2))
 
     for j, (member, t1, t2) in enumerate(sorted(data, key=lambda x:(x[2],x[1]))):
-            print str(j+1).ljust(2, ' ') + ' ' + member['name'].ljust(24,' '),
+            name = member['name'] if member['name'] else 'Anonymous'
+            print str(j+1).ljust(2, ' ') + ' ' + name.ljust(24,' '),
             if t1 != timedelta(days=1000):
                 print ' ',str(t1).ljust(10, ' '),
             if t2 != timedelta(days=1000):
@@ -53,7 +55,7 @@ def get_problem_input(n, event, cookie):
     if not os.path.exists(n+'.in'):
         link = 'https://adventofcode.com/' + event + '/day/' + n + '/input'
         data = requests.get(link, cookies=cookie).text
-        if 'Not Found' in data:
+        if "Please don't repeatedly request this endpoint before it unlocks!" in data:
             print red('Input not available!', bg='black')
         else:
             with open(n+'.in', 'w') as f:
