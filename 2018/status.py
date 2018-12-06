@@ -12,8 +12,8 @@ def print_leaderbord(members):
 
     for j, member in enumerate(sorted(members.itervalues(), key=lambda y:y['local_score'], reverse=True)):
         if j == 0: top = member['local_score']
-        name = member['name'] if member['name'] else 'Anonymous'
         if member['stars']:
+            name = member['name'] if member['name'] else 'Anonymous'
             print str(j+1).ljust(2, ' ') + ' ' + name.ljust(24,' '),
             for i in map(str,xrange(1,26)):
                 if i in member['completion_day_level']:
@@ -50,6 +50,7 @@ def print_problem(n,year,members):
             if t2 != timedelta(days=1000):
                 print ' ', t2,
             print
+
 
 def get_problem_input(n, event, cookie):
     if not os.path.exists(n+'.in'):
@@ -96,12 +97,11 @@ def get_leaderboard_info(event, private_id, cookie):
     return json.loads(requests.get(link, cookies=cookie).text)['members']
 
 if __name__ == '__main__':
-    event = '2018'
+    event = os.path.dirname(os.path.abspath(__file__)).split('/')[-1]
     private_id = '371692' # current
     #private_id = '34481' # jesper
     #copy chrome://settings/cookies/detail?site=adventofcode.com session cookie content
-    cookie = {'session':open('session.cookie').read()}
-
+    cookie = {'session':open('../session.cookie').read()}
     if len(sys.argv)>1 and sys.argv[1].isdigit():
         if len(sys.argv) == 3:
             if sys.argv[2] == '-i':
