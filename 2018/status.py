@@ -170,7 +170,7 @@ if __name__ == '__main__':
                 get_problem_description(sys.argv[1])
         else:
             members = get_leaderboard_info()
-            print_problem(sys.argv[1],event, members)
+            print_problem(sys.argv[1], members)
     else:
         members = get_leaderboard_info()
 
