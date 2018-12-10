@@ -36,7 +36,7 @@ def update_local_points(leaderboard):
         leaderboard[member]['local_score'] = 0
         for day in leaderboard[member]['completion_day_level']:
             for star in leaderboard[member]['completion_day_level'][day]:
-                if (day == '6' and star == '2' and event == '2018'):
+                if (day == '6' and event == '2018'):
                     leaderboard[member]['local_score'] += 0
                 else:
                     leaderboard[member]['local_score'] += int(leaderboard[member]['completion_day_level'][day][star]['pts'])
