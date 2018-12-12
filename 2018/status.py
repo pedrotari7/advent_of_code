@@ -115,7 +115,7 @@ def print_problem(n,members):
 
 
 def get_problem_input(n):
-    if not os.path.exists(n+'.in'):
+    if not os.path.exists(n+'.in') or (os.path.exists(n+'.in') and not open(n+'.in').read().strip()):
         link = 'https://adventofcode.com/' + event + '/day/' + n + '/input'
         data = requests.get(link, cookies=cookie).text
         if "Please don't repeatedly request this endpoint before it unlocks!" in data:
