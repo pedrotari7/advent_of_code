@@ -78,7 +78,7 @@ def print_leaderbord(members, mode='star'):
                         pos = position_in_leaderboard(leaderboard_rank, member['id'], day)
                         if pos:
                             if pos == '1':
-                                print yellow(pos.ljust(2,' '), bg='black'),
+                                print yellow(pos.ljust(2,' ')),
                             elif pos in ['2', '3']:
                                 print blue(pos.ljust(2,' '), bg='black'),
                             else:
@@ -122,7 +122,7 @@ def get_problem_input(n):
             print red('Input not available!', bg='black')
         else:
             with open(n+'.in', 'w') as f:
-                f.write(data.strip())
+                f.write(data.strip('\n'))
                 print green('Data saved in Input file '+n+'.in!', bg='black')
     else:
         print red('Input file '+n+'.in'+' already exits!', bg='black')
