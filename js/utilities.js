@@ -12,8 +12,9 @@ exports.getSplittedDataFromFile = (day, dele='\n') => getDataFromFile(day).split
 
 exports.sum = a => a.reduce((x, y) => x + y, 0);
 
-exports.string2int = a => a.map((e) => +e);
+exports.mult = a => a.reduce((x, y) => x*y, 1);
 
+exports.str2num = a => a.map(e => +e);
 
 // String operations
 
