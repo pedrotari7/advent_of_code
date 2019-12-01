@@ -15,7 +15,7 @@ private_id = '371692' # current
 #private_id = '34481' # jesper
 
 #copy chrome://settings/cookies/detail?site=adventofcode.com session cookie content
-cookie = {'session':open('../session.cookie').read()}
+cookie = {'session':open('../../session.cookie').read()}
 
 def update_local_points(leaderboard):
     for day in map(str, xrange(1,26)):

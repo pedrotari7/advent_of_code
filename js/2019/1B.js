@@ -1,4 +1,6 @@
-const data = require('fs').readFileSync('1.in', 'utf8').split('\n');
+const {getSplittedDataFromFile} = require('../utilities');
+
+const data = getSplittedDataFromFile(1);
 
 const modulus = e => Math.floor(e / 3) - 2;
 
