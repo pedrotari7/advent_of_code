@@ -18,15 +18,19 @@ exports.str2num = a => a.map(e => +e);
 
 // String operations
 
-exports.charCount = (str, chr) =>str.split('').reduce((r, c) => (c === chr ? r + 1 : r), 0);
+exports.charCount = (str, chr) => str.split('').reduce((r, c) => (c === chr ? r + 1 : r), 0);
 
-// MD5
+// Distances
+
+exports.manhattanOrigin = (x, y) => Math.abs(x) + Math.abs(y);
+
+// MD5u
 
 const safeAdd = (x, y) => {
   const lsw = (x & 0xffff) + (y & 0xffff);
   const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
   return (msw << 16) | (lsw & 0xffff);
-}
+};
 
 const bitRotateLeft = (num, cnt) => (num << cnt) | (num >>> (32 - cnt));
 
@@ -132,16 +136,16 @@ const binlMD5 = (x, len) => {
   return [a, b, c, d];
 };
 
-const binl2rstr = (input) => {
+const binl2rstr = input => {
   let output = '';
   const length32 = input.length * 32;
   for (let i = 0; i < length32; i += 8) {
     output += String.fromCharCode((input[i >> 5] >>> i % 32) & 0xff);
   }
   return output;
-}
+};
 
-const rstr2binl = (input) => {
+const rstr2binl = input => {
   const output = [];
   output[(input.length >> 2) - 1] = undefined;
   for (let i = 0; i < output.length; i += 1) {
@@ -152,7 +156,7 @@ const rstr2binl = (input) => {
     output[i >> 5] |= (input.charCodeAt(i / 8) & 0xff) << i % 32;
   }
   return output;
-}
+};
 
 const rstrMD5 = s => binl2rstr(binlMD5(rstr2binl(s), s.length * 8));
 

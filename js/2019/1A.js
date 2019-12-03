@@ -1,4 +1,4 @@
-const {sum, getSplittedDataFromFile} = require('../utilities');
+const { sum, getSplittedDataFromFile } = require('../utilities');
 
 const data = getSplittedDataFromFile(1);
 

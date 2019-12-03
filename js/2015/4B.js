@@ -10,4 +10,4 @@ while (!zeros(md5(`${key}${i}`), 6)) {
   i += 1;
 }
 
-console.log(i)
+console.log(i);
