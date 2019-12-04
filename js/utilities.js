@@ -16,6 +16,8 @@ exports.mult = a => a.reduce((x, y) => x * y, 1);
 
 exports.str2num = a => a.map(e => +e);
 
+exports.range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i);
+
 // String operations
 
 exports.charCount = (str, chr) => str.split('').reduce((r, c) => (c === chr ? r + 1 : r), 0);
