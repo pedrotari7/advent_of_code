@@ -23,7 +23,7 @@ const target = 19690720;
 let noun = 0,
   verb = 0;
 
-while (program([...data], noun, verb) !== target) {
+while (program([ ...data ], noun, verb) !== target) {
   verb += 1;
   if (verb > 99) {
     verb = 0;
