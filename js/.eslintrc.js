@@ -49,7 +49,6 @@ module.exports = exports = {
     'dot-location': [WARN, 'property'],
     'dot-notation': WARN,
     eqeqeq: [ERROR, 'smart'],
-    'guard-for-in': WARN,
     'no-alert': ERROR,
     'no-caller': ERROR,
     'no-case-declarations': WARN,
