@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const fs = require('fs');
 
 // Read from file operations
@@ -17,6 +18,25 @@ exports.mult = a => a.reduce((x, y) => x * y, 1);
 exports.str2num = a => a.map(e => +e);
 
 exports.range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i);
+
+const perm = xs => {
+  let ret = [];
+
+  for (let i = 0; i < xs.length; i += 1) {
+    let rest = perm(xs.slice(0, i).concat(xs.slice(i + 1)));
+
+    if (!rest.length) {
+      ret.push([ xs[i] ]);
+    } else {
+      for (let j = 0; j < rest.length; j += 1) {
+        ret.push([ xs[i] ].concat(rest[j]));
+      }
+    }
+  }
+  return ret;
+};
+
+exports.perm = perm;
 
 // String operations
 
@@ -142,7 +162,7 @@ const binl2rstr = input => {
   let output = '';
   const length32 = input.length * 32;
   for (let i = 0; i < length32; i += 8) {
-    output += String.fromCharCode((input[i >> 5] >>> i % 32) & 0xff);
+    output += String.fromCharCode(input[i >> 5] >>> i % 32 & 0xff);
   }
   return output;
 };
@@ -175,3 +195,57 @@ const rstr2hex = input => {
 const str2rstrUTF8 = input => unescape(encodeURIComponent(input));
 
 exports.md5 = string => rstr2hex(rstrMD5(str2rstrUTF8(string)));
+
+
+// Intcode
+
+exports.intCode = (d, inputs) => {
+  const getDigit = (num, pos) => Math.floor(num / Math.pow(10, pos)) % 10;
+
+  const arg = (m, val) => m === 0 ? d[val] : val;
+
+  const parseOpcode = k => [
+    d[k] % 100,
+    arg(getDigit(d[k], 2), d[k + 1]),
+    arg(getDigit(d[k], 3), d[k + 2]),
+    arg(getDigit(d[k], 4), d[k + 3])
+  ];
+
+  const ADD = 1, MUL = 2, IN = 3, OUT = 4, JUMP_IF_TRUE = 5, JUMP_IF_FALSE = 6, LESS_THAN = 7, EQUALS = 8, HALT = 99;
+
+  let output = 0;
+  let i = 0;
+  let inputCount = 0;
+
+  // eslint-disable-next-line no-constant-condition
+  while (1) {
+    let [ op, a1, a2 ] = parseOpcode(i);
+    if (op === ADD) {
+      d[d[i + 3]] = a1 + a2;
+      i += 4;
+    } else if (op === MUL) {
+      d[d[i + 3]] = a1 * a2;
+      i += 4;
+    } else if (op === IN) {
+      d[d[i + 1]] = inputs[inputCount];
+      inputCount += 1;
+      i += 2;
+    } else if (op === OUT) {
+      output = a1;
+      i += 2;
+    } else if (op === JUMP_IF_TRUE) {
+      i = a1 !== 0 ? a2 : i + 3;
+    } else if (op === JUMP_IF_FALSE) {
+      i = a1 === 0 ? a2 : i + 3;
+    } else if (op === LESS_THAN) {
+      d[d[i + 3]] = Number(a1 < a2);
+      i += 4;
+    } else if (op === EQUALS) {
+      d[d[i + 3]] = Number(a1 === a2);
+      i += 4;
+    } else if (op === HALT) {
+      break;
+    }
+  }
+  return output;
+};
