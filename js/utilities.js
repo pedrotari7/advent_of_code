@@ -15,7 +15,7 @@ exports.sum = a => a.reduce((x, y) => x + y, 0);
 
 exports.mult = a => a.reduce((x, y) => x * y, 1);
 
-exports.str2num = a => a.map(e => +e);
+exports.str2num = a => a.map(e => Number(e));
 
 exports.range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i);
 
@@ -40,7 +40,7 @@ exports.perm = perm;
 
 // String operations
 
-exports.charCount = (str, chr) => str.split('').reduce((r, c) => (c === chr ? r + 1 : r), 0);
+exports.charCount = (str, chr) => str.split('').reduce((r, c) => c === chr ? r + 1 : r, 0);
 
 // Distances
 
@@ -51,16 +51,16 @@ exports.manhattanOrigin = (x, y) => Math.abs(x) + Math.abs(y);
 const safeAdd = (x, y) => {
   const lsw = (x & 0xffff) + (y & 0xffff);
   const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-  return (msw << 16) | (lsw & 0xffff);
+  return msw << 16 | lsw & 0xffff;
 };
 
-const bitRotateLeft = (num, cnt) => (num << cnt) | (num >>> (32 - cnt));
+const bitRotateLeft = (num, cnt) => num << cnt | num >>> 32 - cnt;
 
 const md5cmn = (q, a, b, x, s, t) => safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
 
-const md5ff = (a, b, c, d, x, s, t) => md5cmn((b & c) | (~b & d), a, b, x, s, t);
+const md5ff = (a, b, c, d, x, s, t) => md5cmn(b & c | ~b & d, a, b, x, s, t);
 
-const md5gg = (a, b, c, d, x, s, t) => md5cmn((b & d) | (c & ~d), a, b, x, s, t);
+const md5gg = (a, b, c, d, x, s, t) => md5cmn(b & d | c & ~d, a, b, x, s, t);
 
 const md5hh = (a, b, c, d, x, s, t) => md5cmn(b ^ c ^ d, a, b, x, s, t);
 
@@ -68,7 +68,7 @@ const md5ii = (a, b, c, d, x, s, t) => md5cmn(c ^ (b | ~d), a, b, x, s, t);
 
 const binlMD5 = (x, len) => {
   x[len >> 5] |= 0x80 << len % 32;
-  x[(((len + 64) >>> 9) << 4) + 14] = len;
+  x[(len + 64 >>> 9 << 4) + 14] = len;
 
   let olda, oldb, oldc, oldd;
   let a = 1732584193;
@@ -155,7 +155,7 @@ const binlMD5 = (x, len) => {
     c = safeAdd(c, oldc);
     d = safeAdd(d, oldd);
   }
-  return [a, b, c, d];
+  return [ a, b, c, d ];
 };
 
 const binl2rstr = input => {
@@ -187,7 +187,7 @@ const rstr2hex = input => {
   let output = '';
   for (let i = 0; i < input.length; i += 1) {
     let x = input.charCodeAt(i);
-    output += hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f);
+    output += hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f);
   }
   return output;
 };
@@ -198,24 +198,29 @@ exports.md5 = string => rstr2hex(rstrMD5(str2rstrUTF8(string)));
 
 
 // Intcode
+const ADD = 1;
+const MUL = 2;
+const IN = 3;
+const OUT = 4;
+const JUMP_IF_TRUE = 5;
+const JUMP_IF_FALSE = 6;
+const LESS_THAN = 7;
+const EQUALS = 8;
+const HALT = 99;
 
-exports.intCode = (d, inputs) => {
+exports.intCode = (d, inputs, inst = 0, lastOutput = 0) => {
   const getDigit = (num, pos) => Math.floor(num / Math.pow(10, pos)) % 10;
 
   const arg = (m, val) => m === 0 ? d[val] : val;
 
   const parseOpcode = k => [
-    d[k] % 100,
-    arg(getDigit(d[k], 2), d[k + 1]),
-    arg(getDigit(d[k], 3), d[k + 2]),
-    arg(getDigit(d[k], 4), d[k + 3])
+    d[k] % 100, arg(getDigit(d[k], 2), d[k + 1]), arg(getDigit(d[k], 3), d[k + 2]), arg(getDigit(d[k], 4), d[k + 3])
   ];
 
-  const ADD = 1, MUL = 2, IN = 3, OUT = 4, JUMP_IF_TRUE = 5, JUMP_IF_FALSE = 6, LESS_THAN = 7, EQUALS = 8, HALT = 99;
 
-  let output = 0;
-  let i = 0;
+  const output = lastOutput;
   let inputCount = 0;
+  let i = inst;
 
   // eslint-disable-next-line no-constant-condition
   while (1) {
@@ -231,8 +236,8 @@ exports.intCode = (d, inputs) => {
       inputCount += 1;
       i += 2;
     } else if (op === OUT) {
-      output = a1;
       i += 2;
+      return { output: a1, op, i };
     } else if (op === JUMP_IF_TRUE) {
       i = a1 !== 0 ? a2 : i + 3;
     } else if (op === JUMP_IF_FALSE) {
@@ -244,8 +249,7 @@ exports.intCode = (d, inputs) => {
       d[d[i + 3]] = Number(a1 === a2);
       i += 4;
     } else if (op === HALT) {
-      break;
+      return { output, op, i };
     }
   }
-  return output;
 };
