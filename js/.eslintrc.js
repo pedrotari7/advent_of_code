@@ -4,7 +4,8 @@ var OFF = 0,
 
 module.exports = exports = {
   env: {
-    es6: true
+    es6: true,
+    node: true
   },
 
   ecmaFeatures: {
