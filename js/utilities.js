@@ -24,11 +24,15 @@ exports.mult = a => a.reduce((x, y) => x * y, 1);
 
 exports.str2num = a => a.map(e => Number(e));
 
-exports.range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i);
+const range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i)
+
+exports.range = range;
 
 exports.sortDesc = a => a.sort();
 
 exports.sortAsc = a => a.sort((a, b) => a - b);
+
+// itertools
 
 const perm = xs => {
   let ret = [];
@@ -48,6 +52,29 @@ const perm = xs => {
 };
 
 exports.perm = perm;
+
+exports.combinations = function* (array, r) {
+  const n = array.length;
+
+  if (r > n) return;
+  const indices = range(0, r);
+  yield indices.map(k => array[k]);
+  while (true) {
+    let idx = -1;
+    for (const i of range(0, r).reverse()) {
+      if (indices[i] != i + n - r) {
+        idx = i;
+        break;
+      };
+    }
+    if (idx === -1) return;
+    indices[idx] += 1;
+    for (const j of range(idx + 1, r)) {
+      indices[j] = indices[j - 1] + 1
+    }
+    yield indices.map(k => array[k]);
+  }
+}
 
 // String operations
 
