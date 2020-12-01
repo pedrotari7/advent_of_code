@@ -1,6 +1,13 @@
 /* eslint-disable no-undef */
 const fs = require('fs');
 
+// Timer
+
+exports.timer = {
+  start: () => console.time('Elapsed Time'),
+  stop: () => console.timeEnd('Elapsed Time'),
+}
+
 // Read from file operations
 
 const getDataFromFile = day => fs.readFileSync(`${day}.in`, 'utf8');
@@ -19,6 +26,10 @@ exports.str2num = a => a.map(e => Number(e));
 
 exports.range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i);
 
+exports.sortDesc = a => a.sort();
+
+exports.sortAsc = a => a.sort((a, b) => a - b);
+
 const perm = xs => {
   let ret = [];
 
@@ -26,10 +37,10 @@ const perm = xs => {
     let rest = perm(xs.slice(0, i).concat(xs.slice(i + 1)));
 
     if (!rest.length) {
-      ret.push([ xs[i] ]);
+      ret.push([xs[i]]);
     } else {
       for (let j = 0; j < rest.length; j += 1) {
-        ret.push([ xs[i] ].concat(rest[j]));
+        ret.push([xs[i]].concat(rest[j]));
       }
     }
   }
@@ -155,7 +166,7 @@ const binlMD5 = (x, len) => {
     c = safeAdd(c, oldc);
     d = safeAdd(d, oldd);
   }
-  return [ a, b, c, d ];
+  return [a, b, c, d];
 };
 
 const binl2rstr = input => {
@@ -224,7 +235,7 @@ exports.intCode = (d, inputs, inst = 0, lastOutput = 0) => {
 
   // eslint-disable-next-line no-constant-condition
   while (1) {
-    let [ op, a1, a2 ] = parseOpcode(i);
+    let [op, a1, a2] = parseOpcode(i);
     if (op === ADD) {
       d[d[i + 3]] = a1 + a2;
       i += 4;
