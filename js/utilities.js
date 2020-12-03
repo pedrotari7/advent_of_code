@@ -14,7 +14,17 @@ const getDataFromFile = day => fs.readFileSync(`${day}.in`, 'utf8');
 
 exports.getDataFromFile = getDataFromFile;
 
-exports.getSplittedDataFromFile = (day, dele = '\n') => getDataFromFile(day).split(dele);
+const getSplittedDataFromFile = (day, dele = '\n') => getDataFromFile(day).split(dele);
+
+exports.getSplittedDataFromFile = getSplittedDataFromFile;
+
+exports.getCharMatrixFromFile = (day, dele = '') => getSplittedDataFromFile(day).map(row => row.split(dele));
+
+const getNumberMatrixFromFile = (day, func, dele) => getSplittedDataFromFile(day).map(row => row.split(dele).map(func));
+
+exports.getIntMatrixFromFile = (day, dele = '') => getNumberMatrixFromFile(day, parseInt, dele);
+
+exports.getFloatMatrixFromFile = (day, dele = '') => getNumberMatrixFromFile(day, parseFloat, dele);;
 
 // Array operations
 
