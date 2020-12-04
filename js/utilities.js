@@ -26,6 +26,12 @@ exports.getIntMatrixFromFile = (day, dele = '') => getNumberMatrixFromFile(day, 
 
 exports.getFloatMatrixFromFile = (day, dele = '') => getNumberMatrixFromFile(day, parseFloat, dele);;
 
+// Number operations
+
+exports.int = parseInt;
+
+exports.inRange = (value, low, hi) => value >= low && value <= hi;
+
 // Array operations
 
 exports.sum = a => a.reduce((x, y) => x + y, 0);
