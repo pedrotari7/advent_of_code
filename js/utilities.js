@@ -30,6 +30,8 @@ exports.getFloatMatrixFromFile = (day, dele = '') => getNumberMatrixFromFile(day
 
 exports.int = parseInt;
 
+exports.bin = n => parseInt(n, 2);
+
 exports.inRange = (value, low, hi) => value >= low && value <= hi;
 
 // Array operations
@@ -37,6 +39,8 @@ exports.inRange = (value, low, hi) => value >= low && value <= hi;
 exports.sum = a => a.reduce((x, y) => x + y, 0);
 
 exports.mult = a => a.reduce((x, y) => x * y, 1);
+
+exports.max = a => Math.max(...a);
 
 exports.str2num = a => a.map(e => Number(e));
 
