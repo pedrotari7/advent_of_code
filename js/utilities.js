@@ -52,6 +52,11 @@ exports.sortDesc = a => a.sort();
 
 exports.sortAsc = a => a.sort((a, b) => a - b);
 
+
+// Object Operations
+
+exports.deepCopy = obj => JSON.parse(JSON.stringify(obj));
+
 // itertools
 
 const perm = xs => {
