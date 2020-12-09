@@ -18,13 +18,13 @@ const getSplittedDataFromFile = (day, dele = '\n') => getDataFromFile(day).split
 
 exports.getSplittedDataFromFile = getSplittedDataFromFile;
 
-exports.getCharMatrixFromFile = (day, dele = '') => getSplittedDataFromFile(day).map(row => row.split(dele));
+exports.getCharMatrixFromFile = (day, dele = '\n') => getSplittedDataFromFile(day).map(row => row.split(dele));
 
 const getNumberMatrixFromFile = (day, func, dele) => getSplittedDataFromFile(day).map(row => row.split(dele).map(func));
 
-exports.getIntMatrixFromFile = (day, dele = '') => getNumberMatrixFromFile(day, parseInt, dele);
+exports.getIntMatrixFromFile = (day, dele = '\n') => getNumberMatrixFromFile(day, parseInt, dele);
 
-exports.getFloatMatrixFromFile = (day, dele = '') => getNumberMatrixFromFile(day, parseFloat, dele);;
+exports.getFloatMatrixFromFile = (day, dele = '\n') => getNumberMatrixFromFile(day, parseFloat, dele);;
 
 // Number operations
 
@@ -41,6 +41,8 @@ exports.sum = a => a.reduce((x, y) => x + y, 0);
 exports.mult = a => a.reduce((x, y) => x * y, 1);
 
 exports.max = a => Math.max(...a);
+
+exports.min = a => Math.min(...a);
 
 exports.str2num = a => a.map(e => Number(e));
 
