@@ -6,60 +6,22 @@ const count = (state) => sum(state.map(line => sum(line.map(l => l === '#'))));
 
 const isSeat = (seat) => seat === 'L' || seat === '#';
 
+const inRange = (x, y) => x >= 0 && x < Xmax && y >= 0 && y < Ymax;
+
 const getOccupied = (state, x, y) => {
     let occupied = 0;
 
-    let seat;
-
-    for (let s = 1; x - s >= 0; s++) {
-        seat = state[x - s][y];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
+    for (let dx of [-1, 0, 1]) {
+        for (let dy of [-1, 0, 1]) {
+            if (dx == 0 && dy === 0) continue;
+            let xx = x + dx, yy = y + dy;
+            while (inRange(xx, yy) && !isSeat(state[xx][yy])) {
+                xx += dx;
+                yy += dy;
+            }
+            if (inRange(xx, yy)) occupied += state[xx][yy] === '#';
+        }
     }
-
-    for (let s = 1; x + s < Xmax; s++) {
-        seat = state[x + s][y];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
-    }
-
-    for (let s = 1; y - s >= 0; s++) {
-        seat = state[x][y - s];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
-    }
-
-
-    for (let s = 1; y + s < Ymax; s++) {
-        seat = state[x][y + s];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
-    }
-
-    for (let s = 1; x - s >= 0 && y - s >= 0; s++) {
-        seat = state[x - s][y - s];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
-    }
-
-    for (let s = 1; x - s >= 0 && y + s < Ymax; s++) {
-        seat = state[x - s][y + s];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
-    }
-
-    for (let s = 1; x + s < Xmax && y + s < Ymax; s++) {
-        seat = state[x + s][y + s];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
-    }
-
-    for (let s = 1; x + s < Xmax && y - s >= 0; s++) {
-        seat = state[x + s][y - s];
-        occupied += seat === '#';
-        if (isSeat(seat)) break;
-    }
-
     return occupied;
 }
 
@@ -67,8 +29,8 @@ const run = (state) => {
     const newState = deepCopy(state);
     let changed = false;
 
-    for (let j = 0; j < state.length; j++) {
-        for (let i = 0; i < state[0].length; i++) {
+    for (let j = 0; j < Xmax; j++) {
+        for (let i = 0; i < Ymax; i++) {
             if (state[j][i] === 'L' && getOccupied(state, j, i) === 0) {
                 changed = true;
                 newState[j][i] = '#';
