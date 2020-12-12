@@ -111,6 +111,14 @@ exports.charCount = (str, chr) => str.split('').reduce((r, c) => c === chr ? r +
 
 exports.manhattanOrigin = (x, y) => Math.abs(x) + Math.abs(y);
 
+// Trig Operations
+
+const radians = (degrees) => degrees * Math.PI / 180;
+exports.radians = radians;
+
+exports.cosd = (deg) => Math.cos(radians(deg));
+exports.sind = (deg) => Math.sin(radians(deg));
+
 // MD5u
 
 const safeAdd = (x, y) => {
