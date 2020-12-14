@@ -36,7 +36,7 @@ exports.inRange = (value, low, hi) => value >= low && value <= hi;
 
 // Array operations
 
-exports.sum = a => a.reduce((x, y) => x + y, 0);
+exports.sum = a => a.reduce((x, y) => x + y);
 
 exports.mult = a => a.reduce((x, y) => x * y, 1);
 
@@ -51,6 +51,8 @@ exports.str2num = a => a.map(e => Number(e));
 const range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i)
 
 exports.range = range;
+
+exports.binRange = (start, end, pad) => Array.from({ length: end - start }, (_, i) => BigInt(start + i).toString(2).padStart(pad, '0'));
 
 exports.sortDesc = a => a.sort();
 
