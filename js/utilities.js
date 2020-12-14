@@ -44,6 +44,8 @@ exports.max = a => Math.max(...a);
 
 exports.min = a => Math.min(...a);
 
+exports.minArray = a => sortAsc(a, cmp = (a, b) => a[0] - b[0])[0];
+
 exports.str2num = a => a.map(e => Number(e));
 
 const range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i)
@@ -52,8 +54,9 @@ exports.range = range;
 
 exports.sortDesc = a => a.sort();
 
-exports.sortAsc = a => a.sort((a, b) => a - b);
+const sortAsc = (a, cmp = (a, b) => a - b) => a.sort(cmp);
 
+exports.sortAsc = sortAsc;
 
 // Object Operations
 
