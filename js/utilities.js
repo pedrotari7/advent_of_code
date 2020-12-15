@@ -22,13 +22,15 @@ exports.getCharMatrixFromFile = (day, dele = '\n') => getSplittedDataFromFile(da
 
 const getNumberMatrixFromFile = (day, func, dele) => getSplittedDataFromFile(day).map(row => row.split(dele).map(func));
 
-exports.getIntMatrixFromFile = (day, dele = '\n') => getNumberMatrixFromFile(day, parseInt, dele);
+exports.getIntMatrixFromFile = (day, dele = '\n') => getNumberMatrixFromFile(day, int, dele);
 
 exports.getFloatMatrixFromFile = (day, dele = '\n') => getNumberMatrixFromFile(day, parseFloat, dele);;
 
 // Number operations
 
-exports.int = parseInt;
+const int = (n) => parseInt(n, 10)
+
+exports.int = int;
 
 exports.bin = n => parseInt(n, 2);
 
