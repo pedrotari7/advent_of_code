@@ -62,6 +62,8 @@ const sortAsc = (a, cmp = (a, b) => a - b) => a.sort(cmp);
 
 exports.sortAsc = sortAsc;
 
+exports.zip = (a, b) => a.map((e, i) => [e, b[i]]);
+
 // Object Operations
 
 exports.deepCopy = obj => JSON.parse(JSON.stringify(obj));
