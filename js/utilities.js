@@ -112,6 +112,31 @@ exports.combinations = function* (array, r) {
   }
 }
 
+exports.product = function* (...pools) {
+  let i = 0;
+  const indexes = new Array(pools.length).fill(0)
+  const result = indexes.map((x, i) => pools[i][x]);
+  indexes[0] = -1;
+  while (i < indexes.length) {
+    if (indexes[i] < pools[i].length - 1) {
+      indexes[i]++;
+      result[i] = pools[i][indexes[i]];
+      i = 0;
+      yield result.slice();
+    } else {
+      indexes[i] = 0;
+      result[i] = pools[i][0];
+      i++;
+    }
+  }
+}
+
+exports.repeat = function* (object, times = 1) {
+  for (const _ in range(0, times)) {
+    yield object
+  }
+}
+
 // String operations
 
 exports.charCount = (str, chr) => str.split('').reduce((r, c) => c === chr ? r + 1 : r, 0);
