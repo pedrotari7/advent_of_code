@@ -34,6 +34,8 @@ exports.int = int;
 
 exports.bin = n => parseInt(n, 2);
 
+exports.isNumeric = (value) => /^-?\d+$/.test(value)
+
 exports.inRange = (value, low, hi) => value >= low && value <= hi;
 
 // Array operations
@@ -49,6 +51,8 @@ exports.min = a => Math.min(...a);
 exports.minArray = a => sortAsc(a, cmp = (a, b) => a[0] - b[0])[0];
 
 exports.str2num = a => a.map(e => Number(e));
+
+exports.isArray = v => Array.isArray(v);
 
 const range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i)
 
@@ -138,6 +142,10 @@ exports.repeat = function* (object, times = 1) {
 }
 
 // String operations
+
+exports.reverse = s => [...s].reverse().join("");
+
+exports.isString = (v) => typeof v === 'string' || v instanceof String
 
 exports.charCount = (str, chr) => str.split('').reduce((r, c) => c === chr ? r + 1 : r, 0);
 
