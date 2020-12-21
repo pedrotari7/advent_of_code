@@ -72,6 +72,15 @@ exports.zip = (a, b) => a.map((e, i) => [e, b[i]]);
 
 exports.deepCopy = obj => JSON.parse(JSON.stringify(obj));
 
+exports.initMap = (arr, v) => arr.reduce((acc, d) => ({ ...acc, [d]: v }), {})
+
+// Set Operations
+
+exports.intersect = (a, b) => new Set([...a].filter(i => b.has(i)));
+
+exports.difference = (a, b) => new Set([...a].filter(x => !b.has(x)))
+
+
 // itertools
 
 const perm = xs => {
