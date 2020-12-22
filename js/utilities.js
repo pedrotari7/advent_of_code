@@ -38,6 +38,8 @@ exports.isNumeric = (value) => /^-?\d+$/.test(value)
 
 exports.inRange = (value, low, hi) => value >= low && value <= hi;
 
+exports.isEmpty = a => a.length === 0;
+
 // Array operations
 
 exports.sum = a => a.reduce((x, y) => x + y);
