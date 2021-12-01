@@ -3,9 +3,17 @@ const fs = require('fs');
 
 // Timer
 
-exports.timer = {
+const timer = {
   start: () => console.time('Elapsed Time'),
   stop: () => console.timeEnd('Elapsed Time'),
+};
+
+exports.timer = timer;
+
+exports.timeit = (cb) => {
+  timer.start();
+  cb();
+  timer.stop();
 }
 
 // Read from file operations
@@ -17,6 +25,8 @@ exports.getDataFromFile = getDataFromFile;
 const getSplittedDataFromFile = (day, dele = '\n') => getDataFromFile(day).split(dele);
 
 exports.getSplittedDataFromFile = getSplittedDataFromFile;
+
+exports.getIntArrayFromFile = (day) => getSplittedDataFromFile(day).map(int);
 
 exports.getCharMatrixFromFile = (day, dele = '\n') => getSplittedDataFromFile(day).map(row => row.split(dele));
 
