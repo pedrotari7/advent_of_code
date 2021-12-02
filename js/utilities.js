@@ -80,6 +80,10 @@ exports.sortAsc = sortAsc;
 
 exports.zip = (a, b) => a.map((e, i) => [e, b[i]]);
 
+exports.prod = (a, n) => a.map(v => v * n);
+
+exports.addArrays = (a, b) => a.map((c, i) => c + b[i]);
+
 // Object Operations
 
 exports.deepCopy = obj => JSON.parse(JSON.stringify(obj));
