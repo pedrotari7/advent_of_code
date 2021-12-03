@@ -42,7 +42,7 @@ const int = (n) => parseInt(n, 10)
 
 exports.int = int;
 
-exports.bin = n => parseInt(n, 2);
+exports.bin = n => isArray(n) ? parseInt(n.join(''), 2) : parseInt(n, 2);
 
 exports.isNumeric = (value) => /^-?\d+$/.test(value)
 
@@ -64,7 +64,11 @@ exports.minArray = a => sortAsc(a, cmp = (a, b) => a[0] - b[0])[0];
 
 exports.str2num = a => a.map(e => Number(e));
 
-exports.isArray = v => Array.isArray(v);
+const isArray = v => Array.isArray(v);
+
+exports.isArray = isArray;
+
+exports.fill = (n, d = 0) => new Array(n).fill(d);
 
 const range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i)
 
