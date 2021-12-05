@@ -70,6 +70,8 @@ exports.isArray = isArray;
 
 exports.fill = (n, d = 0) => new Array(n).fill(d);
 
+exports.equals = (a, b) => a.every((c, i) => c === b[i]);
+
 const range = (start, end) => Array.from({ length: end - start }, (_, i) => start + i)
 
 exports.range = range;
@@ -87,6 +89,8 @@ exports.zip = (a, b) => a.map((e, i) => [e, b[i]]);
 exports.prod = (a, n) => a.map(v => v * n);
 
 exports.addArrays = (a, b) => a.map((c, i) => c + b[i]);
+
+exports.subArrays = (a, b) => a.map((c, i) => c - b[i]);
 
 // Object Operations
 
