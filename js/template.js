@@ -1,6 +1,8 @@
-const {{ getSplittedDataFromFile, timeit }} = require('../utilities');
+import {{ timer, getSplittedDataFromFile }} from '../utilities.ts';
 
-timeit(() => {{
-    const data = getSplittedDataFromFile({0});
-    console.log(data);
-}});
+timer.start();
+
+const data = getSplittedDataFromFile({0});
+console.log(data);
+
+timer.stop();
