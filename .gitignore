@@ -93,3 +93,5 @@ ENV/
 2017/session\.cookie
 
 *.cookie
+
+.DS_Store
