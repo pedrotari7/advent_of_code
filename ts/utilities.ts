@@ -18,6 +18,9 @@ export const getSplittedDataFromFile = (day: number, dele = '\n') => getDataFrom
 
 export const getIntArrayFromFile = (day: number, dele = '\n') => getSplittedDataFromFile(day, dele).map(int);
 
+export const getMatrixFromFile = <T>(day: number, dele = '\n', eleFunc: (s: string) => T = (s) => s as unknown as T) =>
+  getSplittedDataFromFile(day).map((row: string) => row.split(dele).map(eleFunc));
+
 export const getCharMatrixFromFile = (day: number, dele = '\n') =>
   getSplittedDataFromFile(day).map((row: string) => row.split(dele));
 
@@ -27,6 +30,10 @@ const getNumberMatrixFromFile = (day: number, func: (s: string) => number, dele 
 export const getIntMatrixFromFile = (day: number, dele = '\n') => getNumberMatrixFromFile(day, int, dele);
 
 export const getFloatMatrixFromFile = (day: number, dele = '\n') => getNumberMatrixFromFile(day, parseFloat, dele);
+
+// String Operations
+
+export const sortStr = (s: string, t: (k: string) => string = (k) => k) => s.split('').map(t).sort().join('')!;
 
 // Number operations
 

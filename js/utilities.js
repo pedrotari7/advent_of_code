@@ -26,7 +26,7 @@ const getSplittedDataFromFile = (day, dele = '\n') => getDataFromFile(day).split
 
 exports.getSplittedDataFromFile = getSplittedDataFromFile;
 
-exports.getIntArrayFromFile = (day) => getSplittedDataFromFile(day).map(int);
+exports.getIntArrayFromFile = (day, dele='\n') => getSplittedDataFromFile(day, dele).map(int);
 
 exports.getCharMatrixFromFile = (day, dele = '\n') => getSplittedDataFromFile(day).map(row => row.split(dele));
 
