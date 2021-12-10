@@ -77,11 +77,11 @@ export const binRange = (start: number, end: number, pad: number) =>
       .padStart(pad, '0')
   );
 
-export const sortDesc = (a: unknown[]) => a.sort();
+export const sortDesc = (a: number[]) => a.sort((a, b) => b - a);
 
 export const sortAsc = (c: number[], cmp = (a: number, b: number) => a - b) => c.sort(cmp);
 
-export const zip = (a: unknown[], b: unknown[]) => a.map((e, i) => [e, b[i]]);
+export const zip = <T>(a: T[], b: T[]) => a.map((e, i) => [e, b[i]]);
 
 export const prod = (a: number[], n: number) => a.map((v) => v * n);
 
