@@ -25,8 +25,7 @@ const matchPairs = (line: string[]): string[] => {
     clean = matchPairs(clean);
   }
 
-  if (clean.every((l) => Object.keys(pair).includes(l))) return [];
-  return clean;
+  return clean.every((l) => Object.keys(pair).includes(l)) ? [] : clean;
 };
 
 for (const line of data) {

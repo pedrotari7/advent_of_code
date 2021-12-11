@@ -27,7 +27,7 @@ export const getCharMatrixFromFile = (day: number, dele = '\n') =>
 const getNumberMatrixFromFile = (day: number, func: (s: string) => number, dele = '\n') =>
   getSplittedDataFromFile(day).map((row: string) => row.split(dele).map(func));
 
-export const getIntMatrixFromFile = (day: number, dele = '\n') => getNumberMatrixFromFile(day, int, dele);
+export const getIntMatrixFromFile = (day: number, dele = '') => getNumberMatrixFromFile(day, int, dele);
 
 export const getFloatMatrixFromFile = (day: number, dele = '\n') => getNumberMatrixFromFile(day, parseFloat, dele);
 
@@ -79,7 +79,8 @@ export const binRange = (start: number, end: number, pad: number) =>
 
 export const sortDesc = (a: number[]) => a.sort((a, b) => b - a);
 
-export const sortAsc = (c: number[], cmp = (a: number, b: number) => a - b) => c.sort(cmp);
+export const sortAsc = <T>(c: T[], cmp = (a: T, b: T) => (a as unknown as number) - (b as unknown as number)) =>
+  c.sort(cmp);
 
 export const zip = <T>(a: T[], b: T[]) => a.map((e, i) => [e, b[i]]);
 
@@ -88,6 +89,11 @@ export const prod = (a: number[], n: number) => a.map((v) => v * n);
 export const addArrays = (a: number[], b: number[]) => a.map((c, i) => c + b[i]);
 
 export const subArrays = (a: number[], b: number[]) => a.map((c, i) => c - b[i]);
+
+export type Grid = number[][];
+
+export const getArrayIndexes = (g: Grid, opts = { rmin: 0, rmax: g.length, cmin: 0, cmax: g[0].length }) =>
+  sortAsc([...product(range(opts.cmin, opts.cmax), range(opts.rmin, opts.rmax))], (a, b) => a[0] - b[0]);
 
 // Object Operations
 
@@ -106,21 +112,21 @@ export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter((x)
 
 // itertools
 
-export const perm = (xs: unknown[]) => {
-  const ret: unknown[] = [];
-
-  for (let i = 0; i < xs.length; i += 1) {
-    const rest = perm(xs.slice(0, i).concat(xs.slice(i + 1)));
-
-    if (!rest.length) {
-      ret.push([xs[i]]);
-    } else {
-      for (let j = 0; j < rest.length; j += 1) {
-        ret.push([xs[i]].concat(rest[j]));
+export const perm = <T>(list: T[], maxLen: number) => {
+  const perm = list.map((val) => [val]);
+  const generate = (perm: T[][], max: number, currLen: number): T[][] => {
+    if (currLen === max) {
+      return perm;
+    }
+    for (let i = 0, len = perm.length; i < len; i++) {
+      const currPerm = perm.shift()!;
+      for (let k = 0; k < list.length; k++) {
+        perm.push(currPerm.concat(list[k]));
       }
     }
-  }
-  return ret;
+    return generate(perm, max, currLen + 1);
+  };
+  return generate(perm, maxLen, 1);
 };
 
 export const combinations = function* (array: number[], r: number) {

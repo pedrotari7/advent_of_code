@@ -24,31 +24,18 @@ const matchPairs = (line: string[]) => {
     clean = matchPairs(clean).l;
   }
 
-  if (clean.every((l) => Object.keys(pair).includes(l))) return { valid: true, l: clean };
-  return { valid: false, l: clean };
+  return { valid: clean.every((l) => Object.keys(pair).includes(l)), l: clean };
 };
 
-const validLines = [];
-
-for (const line of data) {
-  console.log(`line `, line.join(''));
-
-  const clean = matchPairs(line);
-  if (clean.valid) {
-    validLines.push(clean.l);
-    console.log(`valid`, clean.l.join(''));
-  }
-}
+const validLines = data.reduce((vl, l) => {
+  const clean = matchPairs(l);
+  return clean.valid ? [...vl, clean.l] : vl;
+}, [] as string[][]);
 
 const missing = validLines.map((vl) => vl.reverse().map((c) => pair[c]));
 
-console.log(
-  `missing`,
-  missing.map((m) => m.join(''))
-);
-
 const results = sortAsc(missing.map((l) => l.reduce((total, c) => 5 * total + points[c], 0)));
 
-console.log(`result`, results[Math.floor(results.length / 2)]);
+console.log(results[Math.floor(results.length / 2)]);
 
 timer.stop();
