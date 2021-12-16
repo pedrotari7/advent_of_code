@@ -64,7 +64,7 @@ export const str2num = (a: string[]) => a.map((e) => Number(e));
 
 export const isArray = (v: unknown) => Array.isArray(v);
 
-export const fill = (n: number, d = 0) => new Array(n).fill(d);
+export const fill = <T>(n: number, d: T) => new Array<T>(n).fill(d);
 
 export const equals = (a: unknown[], b: unknown[]) => a.every((c, i) => c === b[i]);
 
@@ -94,6 +94,15 @@ export type Grid = number[][];
 
 export const getArrayIndexes = (g: Grid, opts = { rmin: 0, rmax: g.length, cmin: 0, cmax: g[0].length }) =>
   sortAsc([...product(range(opts.cmin, opts.cmax), range(opts.rmin, opts.rmax))], (a, b) => a[0] - b[0]);
+
+export const DIR_NO_DIAG = [
+  [0, -1],
+  [0, 1],
+  [-1, 0],
+  [1, 0],
+];
+
+export const DIR_DIAG = [...DIR_NO_DIAG, [1, -1], [1, 1], [-1, -1], [-1, 1]];
 
 // Object Operations
 
@@ -195,6 +204,34 @@ export const radians = (degrees: number) => (degrees * Math.PI) / 180;
 
 export const cosd = (deg: number) => Math.cos(radians(deg));
 export const sind = (deg: number) => Math.sin(radians(deg));
+
+// Priority Queue
+class QElement<T> {
+  constructor(public element: T, public priority: number) {}
+}
+
+export class PriorityQueue<T> {
+  constructor(private items: QElement<T>[] = []) {}
+
+  enqueue = (element: T, priority: number) => {
+    const qElement = new QElement(element, priority);
+
+    if (this.isEmpty() || (!this.isEmpty() && priority >= this.items[this.items.length - 1].priority)) {
+      this.items.push(qElement);
+    }
+
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].priority > priority) {
+        this.items.splice(i, 0, qElement);
+        break;
+      }
+    }
+  };
+
+  dequeue = () => this.items.shift()?.element;
+
+  isEmpty = () => this.items.length == 0;
+}
 
 // MD5u
 
