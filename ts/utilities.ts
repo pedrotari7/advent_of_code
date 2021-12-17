@@ -37,7 +37,7 @@ export const sortStr = (s: string, t: (k: string) => string = (k) => k) => s.spl
 
 // Number operations
 
-export const int = (n: string) => parseInt(n, 10);
+export const int = (n: string, radix = 10) => parseInt(n, radix);
 
 export const bin = (n: number[] | string) =>
   isArray(n) ? parseInt((n as number[]).join(''), 2) : parseInt(n as string, 2);
@@ -232,6 +232,22 @@ export class PriorityQueue<T> {
 
   isEmpty = () => this.items.length == 0;
 }
+
+// HEX / BIN
+export const hexToBinary = (hex: string) => {
+  let binary = '';
+  let remainingSize = hex.length;
+  for (let p = 0; p < hex.length / 8; p++) {
+    const blockSize = remainingSize < 8 ? remainingSize : 8;
+
+    binary += parseInt(hex.substr(p * 8, blockSize), 16)
+      .toString(2)
+      .padStart(blockSize * 4, '0');
+
+    remainingSize -= blockSize;
+  }
+  return binary;
+};
 
 // MD5u
 
