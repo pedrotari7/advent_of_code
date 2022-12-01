@@ -37,6 +37,8 @@ export const sortStr = (s: string, t: (k: string) => string = (k) => k) => s.spl
 
 // Number operations
 
+export const int10 = (n: string) => parseInt(n);
+
 export const int = (n: string, radix = 10) => parseInt(n, radix);
 
 export const bin = (n: number[] | string) =>
@@ -50,7 +52,7 @@ export const isEmpty = (a: unknown[]) => a.length === 0;
 
 // Array operations
 
-export const sum = (a: number[]) => a.reduce((x, y) => x + y);
+export const sum = (a: number[]) => a.reduce((x, y) => x + y, 0);
 
 export const mult = (a: number[]) => a.reduce((x, y) => x * y, 1);
 
@@ -78,6 +80,7 @@ export const binRange = (start: number, end: number, pad: number) =>
   );
 
 export const sortDesc = (a: number[]) => a.sort((a, b) => b - a);
+export const sortA = (a: number[]) => a.sort((a, b) => a - b);
 
 export const sortAsc = <T>(c: T[], cmp = (a: T, b: T) => (a as unknown as number) - (b as unknown as number)) =>
   c.sort(cmp);
@@ -86,9 +89,9 @@ export const zip = <T>(a: T[], b: T[]) => a.map((e, i) => [e, b[i]]);
 
 export const prod = (a: number[], n: number) => a.map((v) => v * n);
 
-export const addArrays = (a: number[], b: number[]) => a.map((c, i) => c + b[i]);
+export const addArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c + b[i]);
 
-export const subArrays = (a: number[], b: number[]) => a.map((c, i) => c - b[i]);
+export const subArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c - b[i]);
 
 export type Grid = number[][];
 
@@ -106,7 +109,7 @@ export const DIR_DIAG = [...DIR_NO_DIAG, [1, -1], [1, 1], [-1, -1], [-1, 1]];
 
 // Object Operations
 
-export const deepCopy = (obj: Record<string, unknown>) => JSON.parse(JSON.stringify(obj));
+export const deepCopy = <T>(obj: Record<string, T> | T[]) => JSON.parse(JSON.stringify(obj));
 
 type ComputedProperty = string | number | symbol;
 
@@ -121,7 +124,7 @@ export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter((x)
 
 // itertools
 
-export const perm = <T>(list: T[], maxLen: number) => {
+export const perm = <T>(list: T[], maxLen: number, repeat = true) => {
   const perm = list.map((val) => [val]);
   const generate = (perm: T[][], max: number, currLen: number): T[][] => {
     if (currLen === max) {
@@ -130,6 +133,7 @@ export const perm = <T>(list: T[], maxLen: number) => {
     for (let i = 0, len = perm.length; i < len; i++) {
       const currPerm = perm.shift()!;
       for (let k = 0; k < list.length; k++) {
+        if (k === i && !repeat) continue;
         perm.push(currPerm.concat(list[k]));
       }
     }
@@ -161,7 +165,7 @@ export const combinations = function* (array: number[], r: number) {
   }
 };
 
-export const product = function* (...pools: number[][]) {
+export const product = function* <T>(...pools: T[][]) {
   let i = 0;
   const indexes = new Array(pools.length).fill(0);
   const result = indexes.map((x, i) => pools[i][x]);
@@ -188,7 +192,7 @@ export const repeat = function* (object: Record<string, unknown>, times = 1) {
 
 // String operations
 
-export const reverse = (s: unknown[]) => [...s].reverse().join('');
+export const reverse = <T>(s: T[]) => [...s].reverse().join('');
 
 export const isString = (v: unknown) => typeof v === 'string' || v instanceof String;
 
