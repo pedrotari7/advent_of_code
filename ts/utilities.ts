@@ -118,7 +118,8 @@ export const initMap = <T>(arr: ComputedProperty[], v: T): Record<ComputedProper
 
 // Set Operations
 
-export const intersect = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter((i) => b.has(i)));
+export const intersect = <T>(...b: (Set<T> | T[])[]) =>
+  b.map((v) => new Set(v)).reduce((acc, s) => new Set([...acc].filter((i) => s.has(i))));
 
 export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter((x) => !b.has(x)));
 
@@ -197,6 +198,8 @@ export const reverse = <T>(s: T[]) => [...s].reverse().join('');
 export const isString = (v: unknown) => typeof v === 'string' || v instanceof String;
 
 export const charCount = (str: string, chr: string) => str.split('').reduce((r, c) => (c === chr ? r + 1 : r), 0);
+
+export const charCode = (str: string) => str.charCodeAt(0);
 
 // Distances
 
