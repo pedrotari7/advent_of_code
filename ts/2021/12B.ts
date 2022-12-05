@@ -16,10 +16,10 @@ const isSmall = (c: string) => c.toLowerCase() === c;
 
 const occurrences = (a: string[]) =>
   a
-    .filter((c) => isSmall(c) && c !== 'start' && c !== 'end')
+    .filter(c => isSmall(c) && c !== 'start' && c !== 'end')
     .reduce((acc, curr) => (acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc), {} as Record<string, number>);
 
-const isRepeated = (a: string[]) => Object.values(occurrences(a)).some((v) => v >= 2);
+const isRepeated = (a: string[]) => Object.values(occurrences(a)).some(v => v >= 2);
 
 const q = [{ cave: 'start', path: [] as string[] }];
 

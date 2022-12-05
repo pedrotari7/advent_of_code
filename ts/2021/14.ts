@@ -17,17 +17,17 @@ const count = (pairs: Record<string, number>) => {
     return ch;
   }, {} as Record<string, number>);
 
-  const n = Object.values(ch).map((c) => Math.ceil(c / 2));
+  const n = Object.values(ch).map(c => Math.ceil(c / 2));
   return max(n) - min(n);
 };
 
 const rules = r
   .split('\n')
-  .map((d) => d.split(' -> '))
+  .map(d => d.split(' -> '))
   .reduce((rul, [a, c]) => ({ ...rul, [a]: c }), {} as Record<string, string>);
 
 let pairs = range(1, temp.length)
-  .map((i) => temp[i - 1] + temp[i])
+  .map(i => temp[i - 1] + temp[i])
   .reduce((pairs, pair) => ({ ...pairs, [pair]: add(pairs[pair], 1) }), {} as Record<string, number>);
 
 for (let step = 0; step < 40; step++) {
@@ -36,7 +36,7 @@ for (let step = 0; step < 40; step++) {
   }
 
   pairs = Object.keys(pairs)
-    .flatMap((p) => [
+    .flatMap(p => [
       [p[0] + rules[p], pairs[p]],
       [rules[p] + p[1], pairs[p]],
     ])

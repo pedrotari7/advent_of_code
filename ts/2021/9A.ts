@@ -13,10 +13,10 @@ const dir = [
 
 const valid = (p: number[]) => inRange(p[0], 0, data[0].length - 1) && inRange(p[1], 0, data.length - 1);
 
-const coord = range(0, data[0].length).flatMap((x) => range(0, data.length).map((y) => [x, y]));
+const coord = range(0, data[0].length).flatMap(x => range(0, data.length).map(y => [x, y]));
 
 const result = coord.reduce((r, [j, i]) => {
-  if (dir.map((d) => addArrays(d, [j, i])).every((p) => !valid(p) || (valid(p) && data[p[1]][p[0]] > data[i][j]))) {
+  if (dir.map(d => addArrays(d, [j, i])).every(p => !valid(p) || (valid(p) && data[p[1]][p[0]] > data[i][j]))) {
     r += 1 + data[i][j];
   }
   return r;

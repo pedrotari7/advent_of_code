@@ -2,7 +2,7 @@ import { timer, getMatrixFromFile, int10 } from '../utilities.ts';
 
 timer.start();
 
-const data = getMatrixFromFile<string>(4, '-').map((r) => r.flatMap((e) => e.split(',')).map(int10));
+const data = getMatrixFromFile<string>(4, '-').map(r => r.flatMap(e => e.split(',')).map(int10));
 
 const p1 = data.reduce((count, [a, b, c, d]) => count + +((a >= c && b <= d) || (a <= c && b >= d)), 0);
 

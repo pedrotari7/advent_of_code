@@ -4,12 +4,12 @@ timer.start();
 
 let dumbos = getIntMatrixFromFile(11);
 
-const dir = perm([0, 1, -1], 2).filter((d) => d[0] !== 0 || d[1] !== 0);
+const dir = perm([0, 1, -1], 2).filter(d => d[0] !== 0 || d[1] !== 0);
 
-const hasTens = (g: Grid) => g.some((g) => g.reduce((s, d) => (s ? s : d === 10), false));
+const hasTens = (g: Grid) => g.some(g => g.reduce((s, d) => (s ? s : d === 10), false));
 
-const flashes = range(0, 100).reduce((f) => {
-  dumbos = dumbos.map((d) => d.map((o) => o + 1));
+const flashes = range(0, 100).reduce(f => {
+  dumbos = dumbos.map(d => d.map(o => o + 1));
 
   while (hasTens(dumbos)) {
     for (const [r, c] of getArrayIndexes(dumbos)) {

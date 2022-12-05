@@ -25,7 +25,7 @@ const matchPairs = (line: string[]): string[] => {
     clean = matchPairs(clean);
   }
 
-  return clean.every((l) => Object.keys(pair).includes(l)) ? [] : clean;
+  return clean.every(l => Object.keys(pair).includes(l)) ? [] : clean;
 };
 
 for (const line of data) {
@@ -37,8 +37,8 @@ for (const line of data) {
         clean[
           min(
             Object.keys(points)
-              .map((w) => clean.indexOf(w))
-              .filter((c) => c >= 0)
+              .map(w => clean.indexOf(w))
+              .filter(c => c >= 0)
           )
         ]
       ];

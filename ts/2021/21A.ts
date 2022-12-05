@@ -2,7 +2,7 @@ import { timer, getSplittedDataFromFile, int, sum } from '../utilities.ts';
 
 timer.start();
 
-let [p1, p2] = getSplittedDataFromFile(21).map((s) => int(s.split(' ').pop()!));
+let [p1, p2] = getSplittedDataFromFile(21).map(s => int(s.split(' ').pop()!));
 
 let [s1, s2] = [0, 0];
 

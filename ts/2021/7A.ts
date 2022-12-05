@@ -5,7 +5,7 @@ timeit(() => {
 
   const best = range(0, max(data)).reduce(
     ({ b, i }, c) => {
-      const fuel = sum(data.map((d) => Math.abs(d - c)));
+      const fuel = sum(data.map(d => Math.abs(d - c)));
       return fuel < b ? { b: fuel, i: c } : { b, i };
     },
     { b: 2 ** 32, i: 0 }

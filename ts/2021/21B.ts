@@ -4,7 +4,7 @@ timer.start();
 
 type N = number;
 
-const [p1, p2] = getSplittedDataFromFile(21).map((s) => int(s.split(' ').pop()!));
+const [p1, p2] = getSplittedDataFromFile(21).map(s => int(s.split(' ').pop()!));
 
 const mod = (n: N, l: N) => ((n - 1) % l) + 1;
 

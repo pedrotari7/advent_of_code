@@ -4,16 +4,16 @@ timer.start();
 
 let dumbos = getIntMatrixFromFile(11);
 
-const dir = perm([0, 1, -1], 2).filter((d) => d[0] !== 0 || d[1] !== 0);
+const dir = perm([0, 1, -1], 2).filter(d => d[0] !== 0 || d[1] !== 0);
 
-const hasTens = (g: Grid) => g.some((g) => g.reduce((s, d) => (s ? s : d === 10), false));
+const hasTens = (g: Grid) => g.some(g => g.reduce((s, d) => (s ? s : d === 10), false));
 
-const allZeros = (g: Grid) => g.every((g) => g.every((d) => d === 0));
+const allZeros = (g: Grid) => g.every(g => g.every(d => d === 0));
 
 let count = 0;
 
 while (!allZeros(dumbos)) {
-  dumbos = dumbos.map((d) => d.map((o) => o + 1));
+  dumbos = dumbos.map(d => d.map(o => o + 1));
 
   while (hasTens(dumbos)) {
     for (const [r, c] of getArrayIndexes(dumbos)) {

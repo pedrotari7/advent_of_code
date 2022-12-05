@@ -2,7 +2,7 @@ import { timer, getCharMatrixFromFile, int, subArrays, equals, addArrays } from 
 
 timer.start();
 
-const data = getCharMatrixFromFile(5, ' -> ').map((d) => d.map((c) => c.split(',').map(int)));
+const data = getCharMatrixFromFile(5, ' -> ').map(d => d.map(c => c.split(',').map(int)));
 
 const inc = (c: number | undefined) => (c ? c + 1 : 1);
 
@@ -22,5 +22,5 @@ const count = data.reduce((count, [pos, end]) => {
   return count;
 }, {} as Record<string, number>);
 
-console.log(`count`, Object.values(count).filter((c) => c >= 2).length);
+console.log(`count`, Object.values(count).filter(c => c >= 2).length);
 timer.stop();

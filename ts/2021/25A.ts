@@ -8,7 +8,7 @@ const R = sea.length;
 const C = sea[0].length;
 
 const move = (s: string[][]) => {
-  const temp = fill(R, []).map((_) => fill(C, '.'));
+  const temp = fill(R, []).map(_ => fill(C, '.'));
   changed = false;
 
   const downs = [];

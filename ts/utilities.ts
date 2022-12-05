@@ -18,7 +18,7 @@ export const getSplittedDataFromFile = (day: number, dele = '\n') => getDataFrom
 
 export const getIntArrayFromFile = (day: number, dele = '\n') => getSplittedDataFromFile(day, dele).map(int);
 
-export const getMatrixFromFile = <T>(day: number, dele = '\n', eleFunc: (s: string) => T = (s) => s as unknown as T) =>
+export const getMatrixFromFile = <T>(day: number, dele = '\n', eleFunc: (s: string) => T = s => s as unknown as T) =>
   getSplittedDataFromFile(day).map((row: string) => row.split(dele).map(eleFunc));
 
 export const getCharMatrixFromFile = (day: number, dele = '\n') =>
@@ -33,7 +33,7 @@ export const getFloatMatrixFromFile = (day: number, dele = '\n') => getNumberMat
 
 // String Operations
 
-export const sortStr = (s: string, t: (k: string) => string = (k) => k) => s.split('').map(t).sort().join('')!;
+export const sortStr = (s: string, t: (k: string) => string = k => k) => s.split('').map(t).sort().join('')!;
 
 // Number operations
 
@@ -62,7 +62,7 @@ export const min = (a: number[]) => Math.min(...a);
 
 export const minArray = (c: number[]) => c.reduce((b, n) => Math.min(b, n));
 
-export const str2num = (a: string[]) => a.map((e) => Number(e));
+export const str2num = (a: string[]) => a.map(e => Number(e));
 
 export const isArray = (v: unknown) => Array.isArray(v);
 
@@ -87,7 +87,7 @@ export const sortAsc = <T>(c: T[], cmp = (a: T, b: T) => (a as unknown as number
 
 export const zip = <T>(a: T[], b: T[]) => a.map((e, i) => [e, b[i]]);
 
-export const prod = (a: number[], n: number) => a.map((v) => v * n);
+export const prod = (a: number[], n: number) => a.map(v => v * n);
 
 export const addArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c + b[i]);
 
@@ -119,14 +119,14 @@ export const initMap = <T>(arr: ComputedProperty[], v: T): Record<ComputedProper
 // Set Operations
 
 export const intersect = <T>(...b: (Set<T> | T[])[]) =>
-  b.map((v) => new Set(v)).reduce((acc, s) => new Set([...acc].filter((i) => s.has(i))));
+  b.map(v => new Set(v)).reduce((acc, s) => new Set([...acc].filter(i => s.has(i))));
 
-export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter((x) => !b.has(x)));
+export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter(x => !b.has(x)));
 
 // itertools
 
 export const perm = <T>(list: T[], maxLen: number, repeat = true) => {
-  const perm = list.map((val) => [val]);
+  const perm = list.map(val => [val]);
   const generate = (perm: T[][], max: number, currLen: number): T[][] => {
     if (currLen === max) {
       return perm;
@@ -148,7 +148,7 @@ export const combinations = function* (array: number[], r: number) {
 
   if (r > n) return;
   const indices = range(0, r);
-  yield indices.map((k) => array[k]);
+  yield indices.map(k => array[k]);
   while (true) {
     let idx = -1;
     for (const i of range(0, r).reverse()) {
@@ -162,7 +162,7 @@ export const combinations = function* (array: number[], r: number) {
     for (const j of range(idx + 1, r)) {
       indices[j] = indices[j - 1] + 1;
     }
-    yield indices.map((k) => array[k]);
+    yield indices.map(k => array[k]);
   }
 };
 
