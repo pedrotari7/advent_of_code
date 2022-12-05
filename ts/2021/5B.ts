@@ -1,8 +1,8 @@
-import { timer, getCharMatrixFromFile, int, subArrays, equals, addArrays } from '../utilities.ts';
+import { timer, getCharMatrixFromFile, subArrays, equals, addArrays, int10 } from '../utilities.ts';
 
 timer.start();
 
-const data = getCharMatrixFromFile(5, ' -> ').map(d => d.map(c => c.split(',').map(int)));
+const data = getCharMatrixFromFile(5, ' -> ').map(d => d.map(c => c.split(',').map(int10)));
 
 const inc = (c: number | undefined) => (c ? c + 1 : 1);
 

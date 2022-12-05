@@ -1,4 +1,4 @@
-import { timer, getSplittedDataFromFile, int, range, sum } from '../utilities.ts';
+import { timer, getSplittedDataFromFile, int, range, sum, int10 } from '../utilities.ts';
 
 type Board = { n: number; marked: boolean }[][];
 
@@ -28,7 +28,7 @@ let boards: Board[] = data.map(b =>
   )
 );
 
-const draw = drawRaw.split(',').map(int);
+const draw = drawRaw.split(',').map(int10);
 
 const N = boards.length;
 
@@ -38,13 +38,13 @@ for (const n of draw) {
 
   const won = getWinningBoard(boards);
   if (won && boards.length === N) {
-    console.log('1:', n * sumUnmarked(won));
+    console.log('p1', n * sumUnmarked(won));
   }
 
   boards = boards.filter(b => !checkWin(b));
 
   if (won && boards.length === 0) {
-    console.log('2:', n * sumUnmarked(won));
+    console.log('p2', n * sumUnmarked(won));
     break;
   }
 }

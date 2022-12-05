@@ -16,7 +16,7 @@ export const getDataFromFile = (day: number) => Deno.readTextFileSync(`${day}.in
 
 export const getSplittedDataFromFile = (day: number, dele = '\n') => getDataFromFile(day).split(dele);
 
-export const getIntArrayFromFile = (day: number, dele = '\n') => getSplittedDataFromFile(day, dele).map(int);
+export const getIntArrayFromFile = (day: number, dele = '\n') => getSplittedDataFromFile(day, dele).map(int10);
 
 export const getMatrixFromFile = <T>(day: number, dele = '\n', eleFunc: (s: string) => T = s => s as unknown as T) =>
   getSplittedDataFromFile(day).map((row: string) => row.split(dele).map(eleFunc));
@@ -27,7 +27,7 @@ export const getCharMatrixFromFile = (day: number, dele = '\n') =>
 const getNumberMatrixFromFile = (day: number, func: (s: string) => number, dele = '\n') =>
   getSplittedDataFromFile(day).map((row: string) => row.split(dele).map(func));
 
-export const getIntMatrixFromFile = (day: number, dele = '') => getNumberMatrixFromFile(day, int, dele);
+export const getIntMatrixFromFile = (day: number, dele = '') => getNumberMatrixFromFile(day, int10, dele);
 
 export const getFloatMatrixFromFile = (day: number, dele = '\n') => getNumberMatrixFromFile(day, parseFloat, dele);
 

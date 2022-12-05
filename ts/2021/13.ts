@@ -1,15 +1,15 @@
-import { timer, getSplittedDataFromFile, int, max, range } from '../utilities.ts';
+import { timer, getSplittedDataFromFile, max, range, int10 } from '../utilities.ts';
 
 timer.start();
 
 const [dot, fol] = getSplittedDataFromFile(13, '\n\n');
 
-let dots = dot.split('\n').map(d => d.split(',').map(int));
+let dots = dot.split('\n').map(d => d.split(',').map(int10));
 
 const folds = fol
   .split('\n')
   .map(f => f.split('='))
-  .map(([d, n]) => [d[d.length - 1], int(n)]);
+  .map(([d, n]) => [d[d.length - 1], int10(n)]);
 
 const dump = (a: number[][]) => {
   const xMax = max(a.map(d => d[0])) + 1;
