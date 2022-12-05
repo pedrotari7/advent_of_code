@@ -14,7 +14,7 @@ const moves = movesInfo
       .map(int10)
   );
 
-const stacks = stacksInfo
+const p1Stacks = stacksInfo
   .split('\n')
   .slice(0, -1)
   .reverse()
@@ -28,9 +28,13 @@ const stacks = stacksInfo
     return stacks;
   }, []);
 
+const p2Stacks = [...p1Stacks.map((r) => [...r])];
+
 for (const [amt, src, dest] of moves) {
-  stacks[dest - 1].push(...stacks[src - 1].splice(-amt).reverse());
+  p1Stacks[dest - 1].push(...p1Stacks[src - 1].splice(-amt).reverse());
+  p2Stacks[dest - 1].push(...p2Stacks[src - 1].splice(-amt));
 }
-console.log(stacks.map((s) => s.pop()).join(''));
+console.log('p1', p1Stacks.map((s) => s.pop()).join(''));
+console.log('p2', p2Stacks.map((s) => s.pop()).join(''));
 
 timer.stop();
