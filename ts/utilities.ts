@@ -93,6 +93,8 @@ export const addArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c
 
 export const subArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c - b[i]);
 
+export const hasNoRepeats = <T>(a: T[]) => a.length == new Set(a).size;
+
 export type Grid = number[][];
 
 export const getArrayIndexes = (g: Grid, opts = { rmin: 0, rmax: g.length, cmin: 0, cmax: g[0].length }) =>
