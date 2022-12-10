@@ -12,7 +12,7 @@ export const timeit = (cb: () => void) => {
 
 // Read from file operations
 
-export const getDataFromFile = (day: number) => Deno.readTextFileSync(`${day}.in`);
+export const getDataFromFile = (day: number) => Deno.readTextFileSync(`${day}.in`).trimEnd();
 
 export const getSplittedDataFromFile = (day: number, dele = '\n') => getDataFromFile(day).split(dele);
 
@@ -67,6 +67,8 @@ export const str2num = (a: string[]) => a.map(e => Number(e));
 export const isArray = (v: unknown) => Array.isArray(v);
 
 export const fill = <T>(n: number, d: T) => new Array<T>(n).fill(d);
+
+export const fill2D = <T>(r: number, c: number, d: T) => Array.from(Array(r), _ => Array(c).fill(d));
 
 export const equals = (a: unknown[], b: unknown[]) => a.every((c, i) => c === b[i]);
 
