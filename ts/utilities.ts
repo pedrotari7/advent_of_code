@@ -72,7 +72,13 @@ export const fill2D = <T>(r: number, c: number, d: T) => Array.from(Array(r), _ 
 
 export const equals = (a: unknown[], b: unknown[]) => a.every((c, i) => c === b[i]);
 
-export const range = (start: number, end: number) => Array.from({ length: end - start }, (_, i) => start + i);
+export const range = (start: number, end?: number) => {
+  if (end === undefined) {
+    end = start;
+    start = 0;
+  }
+  return Array.from({ length: end - start }, (_, i) => start + i);
+};
 
 export const binRange = (start: number, end: number, pad: number) =>
   Array.from({ length: end - start }, (_, i) =>
