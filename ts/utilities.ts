@@ -64,7 +64,7 @@ export const minArray = (c: number[]) => c.reduce((b, n) => Math.min(b, n));
 
 export const str2num = (a: string[]) => a.map(e => Number(e));
 
-export const isArray = (v: unknown) => Array.isArray(v);
+export const isArray = <T>(v: unknown): v is Array<T> => Array.isArray(v);
 
 export const fill = <T>(n: number, d: T) => new Array<T>(n).fill(d);
 
@@ -104,6 +104,8 @@ export const subArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c
 export const hasNoRepeats = <T>(a: T[]) => a.length == new Set(a).size;
 
 export type Grid = number[][];
+
+export type RecursiveArray<T> = Array<RecursiveArray<T> | T>;
 
 export const getArrayIndexes = (g: Grid, opts = { rmin: 0, rmax: g.length, cmin: 0, cmax: g[0].length }) =>
   sortAsc([...product(range(opts.cmin, opts.cmax), range(opts.rmin, opts.rmax))], (a, b) => a[0] - b[0]);
