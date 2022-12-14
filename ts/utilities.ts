@@ -68,7 +68,7 @@ export const isArray = <T>(v: unknown): v is Array<T> => Array.isArray(v);
 
 export const fill = <T>(n: number, d: T) => new Array<T>(n).fill(d);
 
-export const fill2D = <T>(r: number, c: number, d: T) => Array.from(Array(r), _ => Array(c).fill(d));
+export const fill2D = <T>(r: number, c: number, d: T): T[][] => Array.from(Array(r), _ => Array(c).fill(d));
 
 export const equals = (a: unknown[], b: unknown[]) => a.every((c, i) => c === b[i]);
 
