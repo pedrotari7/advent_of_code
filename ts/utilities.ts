@@ -135,6 +135,35 @@ export const intersect = <T>(...b: (Set<T> | T[])[]) =>
 
 export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter(x => !b.has(x)));
 
+// Intervals
+export class Interval {
+  constructor(public low: number, public high: number) {}
+  get size() {
+    return this.high - this.low;
+  }
+
+  intersection = (b: Interval) => new Interval(Math.max(this.low, b.low), Math.min(this.high, b.high));
+  union = (b: Interval[]) => {
+    const intervals = [this, ...b].sort((a, b) => a.low - b.low);
+
+    const result = [];
+    let previous = intervals[0];
+
+    for (let i = 1; i < intervals.length; i += 1) {
+      if (previous.high + 1 >= intervals[i].low) {
+        previous = new Interval(previous.low, Math.max(previous.high, intervals[i].high));
+      } else {
+        result.push(previous);
+        previous = intervals[i];
+      }
+    }
+
+    result.push(previous);
+
+    return result;
+  };
+}
+
 // itertools
 
 export const perm = <T>(list: T[], maxLen: number, repeat = true) => {
@@ -216,6 +245,8 @@ export const charCode = (str: string) => str.charCodeAt(0);
 // Distances
 
 export const manhattanOrigin = (x: number, y: number) => Math.abs(x) + Math.abs(y);
+
+export const manhattan = (x1: number, y1: number, x2: number, y2: number) => Math.abs(x1 - x2) + Math.abs(y1 - y2);
 
 // Trig Operations
 
