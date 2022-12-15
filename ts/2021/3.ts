@@ -10,7 +10,7 @@ const getEpsilon = (a: Report) => getGama(a).map(x => 1 - x);
 const gama = getGama(a);
 const epsilon = gama.map(x => 1 - x);
 
-console.log(bin(gama) * bin(epsilon));
+console.log('p1', bin(gama) * bin(epsilon));
 
 type Report = number[][];
 
@@ -25,6 +25,6 @@ const getLife = (a: Report, criteria: (arr: Report) => number[]) =>
 const o2 = getLife(a, getGama);
 const co2 = getLife(a, getEpsilon);
 
-console.log(bin(o2) * bin(co2));
+console.log('p2', bin(o2) * bin(co2));
 
 timer.stop();
