@@ -1,4 +1,4 @@
-import { timer, getIntMatrixFromFile, inRange } from '../utilities.ts';
+import { timer, getIntMatrixFromFile, inRange, SetS } from '../utilities.ts';
 
 timer.start();
 
@@ -32,21 +32,21 @@ const lava = cubes.reduce((lava, [x, y, z]) => lava.add(x, y, z), new Array3D())
 
 const p1 = cubes.reduce((c, [x, y, z]) => c + lava.area(x, y, z), 0);
 
-const visited = new Set();
+const visited = new SetS();
 
 let p2 = 0;
 const Q = [[lava.min - 1, lava.min - 1, lava.min - 1]];
 
 while (Q.length) {
   const [x, y, z] = Q.shift()!;
-  if (visited.has(`${x},${y},${z}`) || lava.has(x, y, z)) continue;
+  if (visited.has([x, y, z]) || lava.has(x, y, z)) continue;
   if (
     !inRange(x, lava.min - 1, lava.max + 1) ||
     !inRange(y, lava.min - 1, lava.max + 1) ||
     !inRange(z, lava.min - 1, lava.max + 1)
   )
     continue;
-  visited.add(`${x},${y},${z}`);
+  visited.add([x, y, z]);
 
   p2 += 6 - lava.area(x, y, z);
 

@@ -137,6 +137,20 @@ export const intersect = <T>(...b: (Set<T> | T[])[]) =>
 
 export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter(x => !b.has(x)));
 
+// deno-lint-ignore ban-types
+export class SetS<T extends Object> extends Set {
+  constructor(items?: Iterable<T> | null | undefined) {
+    super();
+    for (const item of items ?? []) {
+      super.add(item.toString());
+    }
+  }
+
+  add = (value: T) => super.add(value.toString());
+  has = (value: T) => super.has(value.toString());
+  delete = (value: T) => super.delete(value.toString());
+}
+
 // Intervals
 export class Interval {
   constructor(public low: number, public high: number) {}
