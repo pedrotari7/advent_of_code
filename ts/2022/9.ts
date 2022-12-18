@@ -8,9 +8,9 @@ const M: Record<string, [number, number]> = { U: [0, 1], D: [0, -1], L: [-1, 0],
 
 const areAdjacent = (a: number[], b: number[]) => Math.abs(a[0] - b[0]) < 2 && Math.abs(a[1] - b[1]) < 2;
 
-const heads = range(0, 10).map(() => [0, 0]);
+const heads = [...range(0, 10)].map(() => [0, 0]);
 
-const visited = range(0, 10).map(() => [[0, 0]]);
+const visited = [...range(0, 10)].map(() => [[0, 0]]);
 
 const move = (d: string[], v: number[]) => d.reduce((tail, m) => [M[m][0] + tail[0], M[m][1] + tail[1]], v);
 
