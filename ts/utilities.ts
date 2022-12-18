@@ -72,12 +72,14 @@ export const fill2D = <T>(r: number, c: number, d: T): T[][] => Array.from(Array
 
 export const equals = (a: unknown[], b: unknown[]) => a.every((c, i) => c === b[i]);
 
-export const range = (start: number, end?: number) => {
+export const range = function* (start: number, end?: number) {
   if (end === undefined) {
     end = start;
     start = 0;
   }
-  return Array.from({ length: end - start }, (_, i) => start + i);
+  for (let i = start; i < end; i++) {
+    yield i;
+  }
 };
 
 export const binRange = (start: number, end: number, pad: number) =>
@@ -108,7 +110,7 @@ export type Grid = number[][];
 export type RecursiveArray<T> = Array<RecursiveArray<T> | T>;
 
 export const getArrayIndexes = (g: Grid, opts = { rmin: 0, rmax: g.length, cmin: 0, cmax: g[0].length }) =>
-  sortAsc([...product(range(opts.cmin, opts.cmax), range(opts.rmin, opts.rmax))], (a, b) => a[0] - b[0]);
+  sortAsc([...product([...range(opts.cmin, opts.cmax)], [...range(opts.rmin, opts.rmax)])], (a, b) => a[0] - b[0]);
 
 export const DIR_NO_DIAG = [
   [0, -1],
@@ -184,15 +186,15 @@ export const perm = <T>(list: T[], maxLen: number, repeat = true) => {
   return generate(perm, maxLen, 1);
 };
 
-export const combinations = function* (array: number[], r: number) {
+export const combinations = function* <T>(array: T[], r: number) {
   const n = array.length;
 
   if (r > n) return;
-  const indices = range(0, r);
+  const indices = [...range(0, r)];
   yield indices.map(k => array[k]);
   while (true) {
     let idx = -1;
-    for (const i of range(0, r).reverse()) {
+    for (const i of [...range(0, r)].reverse()) {
       if (indices[i] != i + n - r) {
         idx = i;
         break;
@@ -263,6 +265,10 @@ class QElement<T> {
 export class PriorityQueue<T> {
   constructor(private items: QElement<T>[] = []) {}
 
+  get length() {
+    return this.items.length;
+  }
+
   enqueue = (element: T, priority: number) => {
     const qElement = new QElement(element, priority);
 
@@ -278,7 +284,7 @@ export class PriorityQueue<T> {
     }
   };
 
-  dequeue = () => this.items.shift()?.element;
+  dequeue = () => this.items.shift()?.element!;
 
   isEmpty = () => this.items.length == 0;
 }

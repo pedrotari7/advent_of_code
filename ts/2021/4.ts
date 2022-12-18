@@ -6,7 +6,8 @@ const getCol = (arr: Board, n: number) => arr.map(x => x[n]);
 
 const checkRows = (board: Board) => board.some(r => r.every(({ marked }) => marked));
 
-const checkCols = (board: Board) => range(0, board.length).some(i => getCol(board, i).every(({ marked }) => marked));
+const checkCols = (board: Board) =>
+  [...range(0, board.length)].some(i => getCol(board, i).every(({ marked }) => marked));
 
 const checkWin = (board: Board) => checkRows(board) || checkCols(board);
 

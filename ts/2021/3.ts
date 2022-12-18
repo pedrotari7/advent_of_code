@@ -15,7 +15,7 @@ console.log('p1', bin(gama) * bin(epsilon));
 type Report = number[][];
 
 const getLife = (a: Report, criteria: (arr: Report) => number[]) =>
-  range(0, a[0].length)
+  [...range(0, a[0].length)]
     .reduce((x, i) => {
       const c = criteria(x);
       return x.length === 1 ? x : x.filter(v => v[i] === c[i]);
