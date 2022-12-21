@@ -123,7 +123,7 @@ export const DIR_DIAG = [...DIR_NO_DIAG, [1, -1], [1, 1], [-1, -1], [-1, 1]];
 
 // Object Operations
 
-export const deepCopy = <T>(obj: Record<string, T> | T[]) => JSON.parse(JSON.stringify(obj));
+export const deepCopy = <T>(obj: T) => JSON.parse(JSON.stringify(obj)) as T;
 
 type ComputedProperty = string | number | symbol;
 
