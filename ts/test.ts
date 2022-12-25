@@ -28,9 +28,12 @@ for (const folder of [...folders].sort((a, b) => a.name.localeCompare(b.name))) 
               assert(response.status.success);
               assertEquals(response.status.code, 0);
               const p1 = response.output.match(/p1 (.*)/)?.pop()!;
-              const p2 = response.output.match(/p2 (.*)/)?.pop()!;
               assertEquals(p1, String(eventResults[day].p1));
-              assertEquals(p2, String(eventResults[day].p2));
+
+              if (eventResults[day].p2) {
+                const p2 = response.output.match(/p2 (.*)/)?.pop()!;
+                assertEquals(p2, String(eventResults[day].p2));
+              }
             },
           });
         }
