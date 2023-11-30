@@ -1,3 +1,10 @@
+import { readFileSync } from 'node:fs';
+
+let isBun = false;
+if (typeof Bun !== 'undefined') {
+  isBun = true;
+}
+
 // Timer
 export const timer = {
   start: () => console.time('Elapsed Time'),
@@ -12,14 +19,23 @@ export const timeit = (cb: () => void) => {
 
 // Read from file operations
 
-export const getDataFromFile = (day: number) => Deno.readTextFileSync(`${day}.in`).trimEnd();
+const getFile = (day: number): string =>
+  isBun ? readFileSync(`${day}.in`, { encoding: 'utf8', flag: 'r' }) : Deno.readTextFileSync(`${day}.in`);
+
+console.log('isBun', isBun);
+
+export const getDataFromFile = (day: number) => getFile(day).trimEnd();
 
 export const getSplittedDataFromFile = (day: number, dele = '\n') => getDataFromFile(day).split(dele);
 
 export const getIntArrayFromFile = (day: number, dele = '\n') => getSplittedDataFromFile(day, dele).map(int10);
 
-export const getMatrixFromFile = <T>(day: number, dele = '\n', eleFunc: (s: string) => T = s => s as unknown as T) =>
-  getSplittedDataFromFile(day).map((row: string) => row.split(dele).map(eleFunc));
+export const getMatrixFromFile = <T>(
+  day: number,
+  xdele = '\n',
+  eleFunc: (s: string, r?: number, c?: number) => T = s => s as unknown as T,
+  ydele = '\n'
+) => getSplittedDataFromFile(day, ydele).map((row, r) => row.split(xdele).map((s, c) => eleFunc(s, r, c)));
 
 export const getCharMatrixFromFile = (day: number, dele = '\n') =>
   getSplittedDataFromFile(day).map((row: string) => row.split(dele));
@@ -70,7 +86,7 @@ export const fill = <T>(n: number, d: T) => new Array<T>(n).fill(d);
 
 export const fill2D = <T>(r: number, c: number, d: T): T[][] => Array.from(Array(r), _ => Array(c).fill(d));
 
-export const equals = (a: unknown[], b: unknown[]) => a.every((c, i) => c === b[i]);
+export const equals = <T>(a: T[], b: T[]) => a.every((c, i) => c === b[i]);
 
 export const range = function* (start: number, end?: number) {
   if (end === undefined) {
@@ -95,13 +111,13 @@ export const sortA = (a: number[]) => a.sort((a, b) => a - b);
 export const sortAsc = <T>(c: T[], cmp = (a: T, b: T) => (a as unknown as number) - (b as unknown as number)) =>
   c.sort(cmp);
 
-export const zip = <T>(a: T[], b: T[]) => a.map((e, i) => [e, b[i]]);
+export const zip = <T, X>(a: T[], b: X[]) => a.map((e, i) => [e, b[i]]);
 
 export const prod = (a: number[], n: number) => a.map(v => v * n);
 
-export const addArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c + b[i]);
+export const addArrays = <T extends number[]>(a: T, b: T) => a.map((c, i) => c + b[i]) as T;
 
-export const subArrays = <T extends number>(a: T[], b: T[]) => a.map((c, i) => c - b[i]);
+export const subArrays = <T extends number[]>(a: T, b: T) => a.map((c, i) => c - b[i]) as T;
 
 export const hasNoRepeats = <T>(a: T[]) => a.length == new Set(a).size;
 
@@ -112,16 +128,54 @@ export type RecursiveArray<T> = Array<RecursiveArray<T> | T>;
 export const getArrayIndexes = (g: Grid, opts = { rmin: 0, rmax: g.length, cmin: 0, cmax: g[0].length }) =>
   sortAsc([...product([...range(opts.cmin, opts.cmax)], [...range(opts.rmin, opts.rmax)])], (a, b) => a[0] - b[0]);
 
-export const DIR_NO_DIAG = [
-  [0, -1],
-  [0, 1],
-  [-1, 0],
-  [1, 0],
-];
+export const dirs: Record<string, [number, number]> = {
+  N: [1, 0],
+  NE: [1, 1],
+  E: [0, 1],
+  SE: [-1, 1],
+  S: [-1, 0],
+  SW: [-1, -1],
+  W: [0, -1],
+  NW: [1, -1],
+};
 
-export const DIR_DIAG = [...DIR_NO_DIAG, [1, -1], [1, 1], [-1, -1], [-1, 1]];
+export const dirs_no_diag: Record<string, [number, number]> = {
+  N: [1, 0],
+  E: [0, 1],
+  S: [-1, 0],
+  W: [0, -1],
+};
+
+export const dirs_grid: Record<string, [number, number]> = {
+  N: [-1, 0],
+  NE: [-1, 1],
+  E: [0, 1],
+  SE: [1, 1],
+  S: [1, 0],
+  SW: [1, -1],
+  W: [0, -1],
+  NW: [-1, -1],
+};
+
+export const dirs_no_diag_grid: Record<string, [number, number]> = {
+  N: [-1, 0],
+  E: [0, 1],
+  S: [1, 0],
+  W: [0, -1],
+};
+
+export const DIR_NO_DIAG = Object.values(dirs_no_diag);
+
+export const DIR_DIAG = Object.values(dirs);
+
+export const DIR_NO_DIAG_GRID = Object.values(dirs_no_diag_grid);
+
+export const DIR_DIAG_GRID = Object.values(dirs_grid);
 
 // Object Operations
+
+export const isEmptyObject = (obj: unknown) =>
+  obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype;
 
 export const deepCopy = <T>(obj: T) => JSON.parse(JSON.stringify(obj)) as T;
 
