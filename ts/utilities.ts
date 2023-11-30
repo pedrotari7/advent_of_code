@@ -22,8 +22,6 @@ export const timeit = (cb: () => void) => {
 const getFile = (day: number): string =>
   isBun ? readFileSync(`${day}.in`, { encoding: 'utf8', flag: 'r' }) : Deno.readTextFileSync(`${day}.in`);
 
-console.log('isBun', isBun);
-
 export const getDataFromFile = (day: number) => getFile(day).trimEnd();
 
 export const getSplittedDataFromFile = (day: number, dele = '\n') => getDataFromFile(day).split(dele);
