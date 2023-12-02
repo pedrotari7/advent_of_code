@@ -1,4 +1,4 @@
-import { timer, getSplittedDataFromFile } from '../utilities.ts';
+import { timer, getSplittedDataFromFile, int10 } from '../utilities.ts';
 
 timer.start();
 
@@ -20,7 +20,7 @@ const parse = (digits: RegExpMatchArray | string[] | null | undefined) => {
   const first = digits?.at(0) ?? '';
   const last = digits?.at(-1) ?? '';
 
-  return parseInt((first in numbers ? numbers[first] : first) + (last in numbers ? numbers[last] : last));
+  return int10((first in numbers ? numbers[first] : first) + (last in numbers ? numbers[last] : last));
 };
 
 const p1 = data.reduce((acc, v) => acc + parse(v.match(/(\d)/g)), 0);

@@ -27,8 +27,11 @@ for (const folder of [...folders].sort((a, b) => a.name.localeCompare(b.name))) 
               const response = await exec(`deno run --allow-read ${file.name}`, { output: OutputMode.Capture });
               assert(response.status.success);
               assertEquals(response.status.code, 0);
-              const p1 = response.output.match(/p1 (.*)/)?.pop()!;
-              assertEquals(p1, String(eventResults[day].p1));
+
+              if (eventResults[day].p1) {
+                const p1 = response.output.match(/p1 (.*)/)?.pop()!;
+                assertEquals(p1, String(eventResults[day].p1), `test ${year}/${file.name}`);
+              }
 
               if (eventResults[day].p2) {
                 const p2 = response.output.match(/p2 (.*)/)?.pop()!;
