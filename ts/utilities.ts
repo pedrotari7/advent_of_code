@@ -49,6 +49,8 @@ export const getFloatMatrixFromFile = (day: number, dele = '\n') => getNumberMat
 
 export const sortStr = (s: string, t: (k: string) => string = k => k) => s.split('').map(t).sort().join('')!;
 
+export const isDigit = (c: string) => c.length == 1 && c >= '0' && c <= '9';
+
 // Number operations
 
 export const int10 = (n: string) => parseInt(n);
