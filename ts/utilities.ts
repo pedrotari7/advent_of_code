@@ -49,8 +49,6 @@ export const getFloatMatrixFromFile = (day: number, dele = '\n') => getNumberMat
 
 export const sortStr = (s: string, t: (k: string) => string = k => k) => s.split('').map(t).sort().join('')!;
 
-export const isDigit = (c: string) => c.length == 1 && c >= '0' && c <= '9';
-
 // Number operations
 
 export const int10 = (n: string) => parseInt(n);
@@ -69,6 +67,8 @@ export const isEmpty = (a: unknown[]) => a.length === 0;
 // Array operations
 
 export const sum = (a: number[]) => a.reduce((x, y) => x + y, 0);
+
+export const sumFun = (a: number[], fn: (n: number, idx?: number) => number) => a.reduce((x, y, i) => x + fn(y, i), 0);
 
 export const mult = (a: number[]) => a.reduce((x, y) => x * y, 1);
 
@@ -311,6 +311,8 @@ export const isString = (v: unknown) => typeof v === 'string' || v instanceof St
 export const charCount = (str: string, chr: string) => str.split('').reduce((r, c) => (c === chr ? r + 1 : r), 0);
 
 export const charCode = (str: string) => str.charCodeAt(0);
+
+export const isDigit = (c: string) => c.length == 1 && c >= '0' && c <= '9';
 
 // Distances
 
