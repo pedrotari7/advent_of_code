@@ -1,4 +1,4 @@
-import { timer, getSplittedDataFromFile, int10, sum } from '../utilities.ts';
+import { timer, getSplittedDataFromFile, int10, sum, intersect } from '../utilities.ts';
 
 timer.start();
 
@@ -7,7 +7,7 @@ const cards = getSplittedDataFromFile(4).map(v =>
 );
 
 const matches = cards.reduce<Record<string, number>>(
-  (acc, [card, results], i) => ({ ...acc, [i + 1]: card.reduce((c, v) => c + (results.includes(v) ? 1 : 0), 0) }),
+  (acc, [card, results], i) => ({ ...acc, [i + 1]: intersect(card, results).size }),
   {}
 );
 

@@ -7,8 +7,8 @@ if (typeof Bun !== 'undefined') {
 
 // Timer
 export const timer = {
-  start: () => console.time('Elapsed Time'),
-  stop: () => console.timeEnd('Elapsed Time'),
+  start: (id = 'Elapsed Time') => console.time(id),
+  stop: (id = 'Elapsed Time') => console.timeEnd(id),
 };
 
 export const timeit = (cb: () => void) => {
@@ -121,6 +121,14 @@ export const subArrays = <T extends number[]>(a: T, b: T) => a.map((c, i) => c -
 
 export const hasNoRepeats = <T>(a: T[]) => a.length == new Set(a).size;
 
+export const pairs = <T>(a: T[]) => {
+  const result: [T, T][] = [];
+  for (let i = 0; i < a.length - 1; i += 2) {
+    result.push([a[i], a[i + 1]]);
+  }
+  return result;
+};
+
 export type Grid = number[][];
 
 export type RecursiveArray<T> = Array<RecursiveArray<T> | T>;
@@ -213,6 +221,9 @@ export class Interval {
   }
 
   intersection = (b: Interval) => new Interval(Math.max(this.low, b.low), Math.min(this.high, b.high));
+  intersects = (b: Interval) =>
+    (this.low <= b.high && this.low >= b.low) || (this.high <= b.high && this.high >= b.low);
+
   union = (b: Interval[]) => {
     const intervals = [this, ...b].sort((a, b) => a.low - b.low);
 
@@ -232,6 +243,7 @@ export class Interval {
 
     return result;
   };
+  includes = (n: number) => n >= this.low && n <= this.high;
 }
 
 // itertools
