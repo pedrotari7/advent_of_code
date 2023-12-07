@@ -68,7 +68,7 @@ export const isEmpty = (a: unknown[]) => a.length === 0;
 
 export const sum = (a: number[]) => a.reduce((x, y) => x + y, 0);
 
-export const sumFun = (a: number[], fn: (n: number, idx?: number) => number) => a.reduce((x, y, i) => x + fn(y, i), 0);
+export const sumFun = <T>(a: T[], fn: (n: T, idx: number) => number) => a.reduce((x, y, i) => x + fn(y, i), 0);
 
 export const mult = (a: number[]) => a.reduce((x, y) => x * y, 1);
 
