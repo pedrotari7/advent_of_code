@@ -92,15 +92,39 @@ export const fill2D = <T>(r: number, c: number, d: T): T[][] => Array.from(Array
 
 export const equals = <T>(a: T[], b: T[]) => a.every((c, i) => c === b[i]);
 
-export const range = function* (start: number, end?: number) {
-  if (end === undefined) {
-    end = start;
-    start = 0;
+function augmentGenerator<T, M, A extends any[]>(gf: (...a: A) => Generator<T>, m: M & ThisType<Generator<T> & M>) {
+  Object.assign(gf.prototype, m);
+  return gf as (...a: A) => Generator<T> & M;
+}
+
+export const range = augmentGenerator(
+  function* (start: number, end?: number) {
+    if (end === undefined) {
+      end = start;
+      start = 0;
+    }
+    for (let i = start; i < end; i++) {
+      yield i;
+    }
+  },
+  {
+    map: function <K>(fn: (arg0: number) => K) {
+      const acc: K[] = [];
+      for (const i of this) {
+        acc.push(fn(i));
+      }
+      return acc;
+    },
+    reduce: function <T, K>(fn: (acc: K, arg0: number, idx?: number) => K, acc: K) {
+      let idx = 0;
+      for (const i of this) {
+        acc = fn(acc, i, idx);
+        idx++;
+      }
+      return acc;
+    },
   }
-  for (let i = start; i < end; i++) {
-    yield i;
-  }
-};
+);
 
 export const binRange = (start: number, end: number, pad: number) =>
   Array.from({ length: end - start }, (_, i) =>
