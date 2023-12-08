@@ -55,6 +55,10 @@ export const int10 = (n: string) => parseInt(n);
 
 export const int = (n: string, radix = 10) => parseInt(n, radix);
 
+export const gcd = (a: number, b: number): number => (a ? gcd(b % a, a) : b);
+
+export const lcm = (a: number, b: number): number => (a * b) / gcd(a, b);
+
 export const bin = (n: number[] | string) =>
   isArray(n) ? parseInt((n as number[]).join(''), 2) : parseInt(n as string, 2);
 
