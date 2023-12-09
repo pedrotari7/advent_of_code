@@ -82,6 +82,8 @@ export const min = (a: number[]) => Math.min(...a);
 
 export const minArray = (c: number[]) => c.reduce((b, n) => Math.min(b, n));
 
+export const nums = (a: string) => a.match(/-?\d+/g)?.map(int10) ?? [];
+
 export const str2num = (a: string[]) => a.map(e => Number(e));
 
 export const isArray = <T>(v: unknown): v is Array<T> => Array.isArray(v);
@@ -91,6 +93,8 @@ export const fill = <T>(n: number, d: T) => new Array<T>(n).fill(d);
 export const fill2D = <T>(r: number, c: number, d: T): T[][] => Array.from(Array(r), _ => Array(c).fill(d));
 
 export const equals = <T>(a: T[], b: T[]) => a.every((c, i) => c === b[i]);
+
+export const stepDiff = (a: number[]) => a.slice(1).map((v, i) => v - a[i]);
 
 function augmentGenerator<T, M, A extends any[]>(gf: (...a: A) => Generator<T>, m: M & ThisType<Generator<T> & M>) {
   Object.assign(gf.prototype, m);
