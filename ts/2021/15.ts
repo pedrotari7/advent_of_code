@@ -59,7 +59,7 @@ const solve = (N: number) => {
   return findShortestPath(graph, '0,0', `${N * R - 1},${N * C - 1}`);
 };
 
-console.log(solve(1));
-console.log(solve(5));
+console.log('p1', solve(1));
+console.log('p2', solve(5));
 
 timer.stop();

@@ -42,7 +42,7 @@ for (let fx = 0; fx < RANGE; fx++) {
   }
 }
 
-console.log(top);
-console.log(hitCount);
+console.log('p1', top);
+console.log('p2', hitCount);
 
 timer.stop();

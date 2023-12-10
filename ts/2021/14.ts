@@ -32,7 +32,7 @@ let pairs = range(1, temp.length)
 
 for (let step = 0; step < 40; step++) {
   if (step === 10) {
-    console.log(count(pairs));
+    console.log('p1', count(pairs));
   }
 
   pairs = Object.keys(pairs)
@@ -43,6 +43,6 @@ for (let step = 0; step < 40; step++) {
     .reduce((np, [p, c]) => ({ ...np, [p]: add(np[p], c as number) }), {} as Record<string, number>);
 }
 
-console.log(count(pairs));
+console.log('p2', count(pairs));
 
 timer.stop();

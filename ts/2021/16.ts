@@ -86,7 +86,7 @@ let versionSum = 0;
 
 const top = readPacket();
 
-console.log(versionSum);
+console.log('p1', versionSum);
 
 const resolvePacket = ({ typeID, subPackets, literal }: Packet): number => {
   const sp = subPackets!.map(resolvePacket);
@@ -102,5 +102,5 @@ const resolvePacket = ({ typeID, subPackets, literal }: Packet): number => {
   return 0;
 };
 
-console.log(resolvePacket(top));
+console.log('p2', resolvePacket(top));
 timer.stop();
