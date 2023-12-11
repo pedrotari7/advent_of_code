@@ -45,6 +45,17 @@ export const getIntMatrixFromFile = (day: number, dele = '') => getNumberMatrixF
 
 export const getFloatMatrixFromFile = (day: number, dele = '\n') => getNumberMatrixFromFile(day, parseFloat, dele);
 
+// Point Array Operations
+export type Point = { x: number; y: number };
+
+export const getPointArrayFromMatrix = (day: number, pred: (c: string) => boolean, dele = '\n') =>
+  getCharMatrixFromFile(day, dele).reduce<Point[]>((a, row, y) => {
+    row.forEach((c, x) => {
+      if (pred(c)) a.push({ x, y });
+    });
+    return a;
+  }, []);
+
 // String Operations
 
 export const sortStr = (s: string, t: (k: string) => string = k => k) => s.split('').map(t).sort().join('')!;
@@ -126,6 +137,13 @@ export const range = augmentGenerator(
         idx++;
       }
       return acc;
+    },
+    filter: function (pred: (arg0: number) => boolean) {
+      const arr: number[] = [];
+      for (const i of this) {
+        if (pred(i)) arr.push(i);
+      }
+      return arr;
     },
   }
 );
