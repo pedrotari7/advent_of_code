@@ -263,6 +263,20 @@ export class SetS<T extends Object> extends Set {
   delete = (value: T) => super.delete(value.toString());
 }
 
+export class MapS<T, K> extends Map {
+  constructor(entries?: Iterable<[T, K]> | null | undefined) {
+    super();
+    for (const [key, value] of entries ?? []) {
+      super.set(JSON.stringify(key), value);
+    }
+  }
+
+  set = (key: T, value: K) => super.set(JSON.stringify(key), value);
+  get = (key: T) => super.get(JSON.stringify(key));
+  has = (key: T) => super.has(JSON.stringify(key));
+  delete = (key: T) => super.delete(JSON.stringify(key));
+}
+
 // Intervals
 export class Interval {
   constructor(public low: number, public high: number) {}
@@ -361,6 +375,14 @@ export const product = function* <T>(...pools: T[][]) {
 export const repeat = function* (object: Record<string, unknown>, times = 1) {
   for (const _ in range(0, times)) {
     yield object;
+  }
+};
+
+export const pairsWithoutRepeats = function* <T>(array: T[]) {
+  for (let a = 0; a < array.length - 1; a++) {
+    for (let b = a + 1; b < array.length; b++) {
+      yield [array[a], array[b]];
+    }
   }
 };
 
