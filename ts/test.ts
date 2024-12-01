@@ -2,7 +2,7 @@ import { assertEquals, assert } from 'https://deno.land/std@0.168.0/testing/asse
 import { describe, it, beforeEach, afterEach } from 'https://deno.land/std@0.160.0/testing/bdd.ts';
 
 import { exec, OutputMode } from 'https://deno.land/x/exec@0.0.5/mod.ts';
-import results from './results.json' assert { type: 'json' };
+import results from './results.json' with { type: 'json' };
 
 const folders = Deno.readDirSync('.');
 

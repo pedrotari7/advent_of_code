@@ -1,9 +1,11 @@
 import { readFileSync } from 'node:fs';
 
-let isBun = false;
-if (typeof Bun !== 'undefined') {
-  isBun = true;
+let isDeno = false;
+if (globalThis.window && 'Deno' in globalThis.window) {
+  isDeno = true;
 }
+
+console.log('isDeno', isDeno);
 
 // Timer
 export const timer = {
@@ -20,7 +22,7 @@ export const timeit = (cb: () => void) => {
 // Read from file operations
 
 const getFile = (day: number): string =>
-  isBun ? readFileSync(`${day}.in`, { encoding: 'utf8', flag: 'r' }) : Deno.readTextFileSync(`${day}.in`);
+  isDeno ? Deno.readTextFileSync(`${day}.in`) : readFileSync(`${day}.in`, { encoding: 'utf8', flag: 'r' });
 
 export const getDataFromFile = (day: number) => getFile(day).trimEnd();
 
@@ -107,6 +109,8 @@ export const equals = <T>(a: T[], b: T[]) => a.every((c, i) => c === b[i]);
 
 export const stepDiff = (a: number[]) => a.slice(1).map((v, i) => v - a[i]);
 
+export const transpose = <T>(a: T[][]): T[][] => a[0].map((_, i) => a.map(row => row[i]));
+
 function augmentGenerator<T, M, A extends any[]>(gf: (...a: A) => Generator<T>, m: M & ThisType<Generator<T> & M>) {
   Object.assign(gf.prototype, m);
   return gf as (...a: A) => Generator<T> & M;
@@ -161,7 +165,7 @@ export const sortA = (a: number[]) => a.sort((a, b) => a - b);
 export const sortAsc = <T>(c: T[], cmp = (a: T, b: T) => (a as unknown as number) - (b as unknown as number)) =>
   c.sort(cmp);
 
-export const zip = <T, X>(a: T[], b: X[]) => a.map((e, i) => [e, b[i]]);
+export const zip = <T, X>(a: T[], b: X[]): [T, X][] => a.map((e, i) => [e, b[i]]);
 
 export const prod = (a: number[], n: number) => a.map(v => v * n);
 
@@ -178,6 +182,9 @@ export const pairs = <T>(a: T[]) => {
   }
   return result;
 };
+
+export const occurrences = <T extends string | number>(a: T[]) =>
+  a.reduce((acc, curr) => acc.set(curr, (acc.get(curr) ?? 0) + 1), new Map<T, number>());
 
 export type Grid = number[][];
 
@@ -258,9 +265,9 @@ export class SetS<T extends Object> extends Set {
     }
   }
 
-  add = (value: T) => super.add(value.toString());
-  has = (value: T) => super.has(value.toString());
-  delete = (value: T) => super.delete(value.toString());
+  override add = (value: T) => super.add(value.toString());
+  override has = (value: T) => super.has(value.toString());
+  override delete = (value: T) => super.delete(value.toString());
 }
 
 export class MapS<T, K> extends Map {
@@ -271,10 +278,10 @@ export class MapS<T, K> extends Map {
     }
   }
 
-  set = (key: T, value: K) => super.set(JSON.stringify(key), value);
-  get = (key: T) => super.get(JSON.stringify(key));
-  has = (key: T) => super.has(JSON.stringify(key));
-  delete = (key: T) => super.delete(JSON.stringify(key));
+  override set = (key: T, value: K) => super.set(JSON.stringify(key), value);
+  override get = (key: T) => super.get(JSON.stringify(key));
+  override has = (key: T) => super.has(JSON.stringify(key));
+  override delete = (key: T) => super.delete(JSON.stringify(key));
 }
 
 // Intervals
