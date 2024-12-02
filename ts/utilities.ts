@@ -5,8 +5,6 @@ if (globalThis.window && 'Deno' in globalThis.window) {
   isDeno = true;
 }
 
-console.log('isDeno', isDeno);
-
 // Timer
 export const timer = {
   start: (id = 'Elapsed Time') => console.time(id),
