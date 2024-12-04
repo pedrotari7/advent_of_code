@@ -77,7 +77,7 @@ export const isNumeric = (value: string) => /^-?\d+$/.test(value);
 
 export const inRange = (value: number, low: number, hi: number) => value >= low && value <= hi;
 
-export const isEmpty = (a: unknown[]) => a.length === 0;
+export const isEmpty = <T>(a: T[]) => a.length === 0;
 
 // Array operations
 
@@ -108,6 +108,8 @@ export const equals = <T>(a: T[], b: T[]) => a.every((c, i) => c === b[i]);
 export const stepDiff = (a: number[]) => a.slice(1).map((v, i) => v - a[i]);
 
 export const transpose = <T>(a: T[][]): T[][] => a[0].map((_, i) => a.map(row => row[i]));
+
+export const isInBounds = <T>(a: T[][], r: number, c: number) => r >= 0 && r < a.length && c >= 0 && c < a[0].length;
 
 function augmentGenerator<T, M, A extends any[]>(gf: (...a: A) => Generator<T>, m: M & ThisType<Generator<T> & M>) {
   Object.assign(gf.prototype, m);

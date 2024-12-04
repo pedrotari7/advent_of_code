@@ -12,7 +12,7 @@ const noDoubles = (str: string) => str.split('').some((s, i, arr) => (i + 1 < ar
 
 const isNice = (s: string) => has3vowels(s) && noBadStrings(s) && noDoubles(s);
 
-console.log('p2', sum(data.map(s => +isNice(s))));
+console.log('p1', sum(data.map(s => +isNice(s))));
 
 const oneGap = (str: string) => str.split('').some((s, i, arr) => (i + 2 < arr.length ? s === arr[i + 2] : false));
 
