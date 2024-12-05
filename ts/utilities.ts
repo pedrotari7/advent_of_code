@@ -93,6 +93,8 @@ export const min = (a: number[]) => Math.min(...a);
 
 export const minArray = (c: number[]) => c.reduce((b, n) => Math.min(b, n));
 
+export const mid = <T>(a: T[]) => a[a.length >> 1];
+
 export const nums = (a: string) => a.match(/-?\d+/g)?.map(int10) ?? [];
 
 export const str2num = (a: string[]) => a.map(e => Number(e));
@@ -227,6 +229,13 @@ export const dirs_no_diag_grid: Record<string, [number, number]> = {
   E: [0, 1],
   S: [1, 0],
   W: [0, -1],
+};
+
+export const dirs_grid_diag: Record<string, [number, number]> = {
+  NE: [-1, 1],
+  SE: [1, 1],
+  SW: [1, -1],
+  NW: [-1, -1],
 };
 
 export const DIR_NO_DIAG = Object.values(dirs_no_diag);
