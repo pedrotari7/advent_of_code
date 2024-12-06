@@ -56,6 +56,23 @@ export const getPointArrayFromMatrix = (day: number, pred: (c: string) => boolea
     return a;
   }, []);
 
+export const getPointSetFromMatrix = (
+  day: number,
+  pred: (c: string) => boolean,
+  dele = '\n',
+  extraPred?: (c: string) => boolean
+) =>
+  getCharMatrixFromFile(day, dele).reduce(
+    (a, row, y) => {
+      row.forEach((c, x) => {
+        if (pred(c)) a.grid.add({ x, y });
+        if (extraPred?.(c)) a.extra.push({ x, y });
+      });
+      return a;
+    },
+    { grid: new SetS<Point>(), extra: [] as Point[] }
+  );
+
 // String Operations
 
 export const sortStr = (s: string, t: (k: string) => string = k => k) => s.split('').map(t).sort().join('')!;
@@ -267,16 +284,19 @@ export const difference = <T>(a: Set<T>, b: Set<T>) => new Set([...a].filter(x =
 
 // deno-lint-ignore ban-types
 export class SetS<T extends Object> extends Set {
-  constructor(items?: Iterable<T> | null | undefined) {
+  constructor(items?: Iterable<T> | null | undefined, parse: boolean = false) {
     super();
     for (const item of items ?? []) {
-      super.add(item.toString());
+      super.add(JSON.stringify(parse ? JSON.parse(item as unknown as string) : item));
     }
   }
 
-  override add = (value: T) => super.add(value.toString());
-  override has = (value: T) => super.has(value.toString());
-  override delete = (value: T) => super.delete(value.toString());
+  add = (value: T) => super.add(JSON.stringify(value));
+  has = (value: T) => super.has(JSON.stringify(value));
+  delete = (value: T) => super.delete(JSON.stringify(value));
+  values = () => {
+    return [...super.values()].map(v => JSON.parse(v)).values();
+  };
 }
 
 export class MapS<T, K> extends Map {
