@@ -443,6 +443,7 @@ export const manhattan = (x1: number, y1: number, x2: number, y2: number) => Mat
 // Trig Operations
 
 export const radians = (degrees: number) => (degrees * Math.PI) / 180;
+export const degrees = (radians: number) => (radians * 180) / Math.PI;
 
 export const cosd = (deg: number) => Math.cos(radians(deg));
 export const sind = (deg: number) => Math.sin(radians(deg));
