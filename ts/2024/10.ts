@@ -49,6 +49,6 @@ const getScore = (pos: number[]) => {
 const data = trailheads.map(t => getScore(t));
 
 console.log('p1', sum(data.map(d => d.score)));
-console.log('p1', sum(data.map(d => d.rating)));
+console.log('p2', sum(data.map(d => d.rating)));
 
 timer.stop();

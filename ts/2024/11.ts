@@ -29,8 +29,6 @@ const solve = (x: string, t: number): number => {
 
 const solveAll = (n: number) => sum(stones.map(s => solve(s, n)));
 
-console.log('memo', [...memo.values()]);
-
 console.log('p1', solveAll(25));
 console.log('p2', solveAll(75));
 
