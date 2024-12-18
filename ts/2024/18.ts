@@ -20,24 +20,6 @@ const [Y, X] = [debug ? 6 : 70, debug ? 6 : 70];
 
 const n = debug ? 12 : 1024;
 
-const print = (s: number, path: Point[]) => {
-  const grid = Array.from({ length: Y + 1 }, () => Array.from({ length: X + 1 }, () => '.'));
-
-  for (const [y, x] of [...bytes.keys()]) {
-    if (isBlocked([y, x], s)) {
-      grid[y][x] = '#';
-    }
-  }
-  for (const [y, x] of path) {
-    grid[y][x] = 'O';
-  }
-  // print grid
-  for (const row of grid) {
-    console.log(row.join(''));
-  }
-  console.log();
-};
-
 const run = (k: number) => {
   const seen = new SetS<Point>();
 
