@@ -311,6 +311,9 @@ export class MapS<T, K> extends Map {
   override get = (key: T) => super.get(JSON.stringify(key));
   override has = (key: T) => super.has(JSON.stringify(key));
   override delete = (key: T) => super.delete(JSON.stringify(key));
+  override keys = () => {
+    return [...super.keys()].map(v => JSON.parse(v)).values();
+  };
 }
 
 // Intervals
