@@ -87,6 +87,19 @@ export const gcd = (a: number, b: number): number => (a ? gcd(b % a, a) : b);
 
 export const lcm = (a: number, b: number): number => (a * b) / gcd(a, b);
 
+export const divisors = (n: number) => {
+  const result: number[] = [];
+  for (let i = 1; i <= Math.sqrt(n); i++) {
+    if (n % i == 0) {
+      result.push(i);
+      if (i !== n / i) {
+        result.push(n / i);
+      }
+    }
+  }
+  return result.sort((a, b) => a - b);
+};
+
 export const bin = (n: number[] | string) =>
   isArray(n) ? parseInt((n as number[]).join(''), 2) : parseInt(n as string, 2);
 
