@@ -1,7 +1,6 @@
-import { assertEquals, assert } from 'https://deno.land/std@0.168.0/testing/asserts.ts';
-import { describe, it, beforeEach, afterEach } from 'https://deno.land/std@0.160.0/testing/bdd.ts';
+import { assertEquals, assert } from 'https://deno.land/std@0.224.0/assert/mod.ts';
+import { describe, it, beforeEach, afterEach } from 'https://deno.land/std@0.224.0/testing/bdd.ts';
 
-import { exec, OutputMode } from 'https://deno.land/x/exec@0.0.5/mod.ts';
 import results from './results.json' with { type: 'json' };
 
 const folders = Deno.readDirSync('.');
@@ -24,17 +23,24 @@ for (const folder of [...folders].sort((a, b) => a.name.localeCompare(b.name))) 
             name: `${year}/${file.name}`,
             ignore: !(year in results && day in results[year]),
             fn: async () => {
-              const response = await exec(`deno run --allow-read ${file.name}`, { output: OutputMode.Capture });
-              assert(response.status.success);
-              assertEquals(response.status.code, 0);
+              const command = new Deno.Command('deno', {
+                args: ['run', '--allow-read', file.name],
+                stdout: 'piped',
+                stderr: 'piped',
+              });
+              const { code, stdout } = await command.output();
+              const output = new TextDecoder().decode(stdout);
+
+              assert(code === 0);
+              assertEquals(code, 0);
 
               if (eventResults[day].p1) {
-                const p1 = response.output.match(/p1 (.*)/)?.pop()!;
+                const p1 = output.match(/p1 (.*)/)?.pop()!;
                 assertEquals(p1, String(eventResults[day].p1), `test ${year}/${file.name}`);
               }
 
               if (eventResults[day].p2) {
-                const p2 = response.output.match(/p2 (.*)/)?.pop()!;
+                const p2 = output.match(/p2 (.*)/)?.pop()!;
                 assertEquals(p2, String(eventResults[day].p2));
               }
             },

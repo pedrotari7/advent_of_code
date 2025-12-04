@@ -304,12 +304,10 @@ export class SetS<T extends Object> extends Set {
     }
   }
 
-  add = (value: T) => super.add(JSON.stringify(value));
-  has = (value: T) => super.has(JSON.stringify(value));
-  delete = (value: T) => super.delete(JSON.stringify(value));
-  values = () => {
-    return [...super.values()].map(v => JSON.parse(v)).values();
-  };
+  override add = (value: T) => super.add(JSON.stringify(value));
+  override has = (value: T) => super.has(JSON.stringify(value));
+  override delete = (value: T) => super.delete(JSON.stringify(value));
+  override values = () => [...super.values()].map(v => JSON.parse(v)).values();
 }
 
 export class MapS<T, K> extends Map {
