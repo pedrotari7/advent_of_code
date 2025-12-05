@@ -331,33 +331,53 @@ export class MapS<T, K> extends Map {
 export class Interval {
   constructor(public low: number, public high: number) {}
   get size() {
-    return this.high - this.low;
+    return this.high - this.low + 1;
   }
 
   intersection = (b: Interval) => new Interval(Math.max(this.low, b.low), Math.min(this.high, b.high));
   intersects = (b: Interval) =>
     (this.low <= b.high && this.low >= b.low) || (this.high <= b.high && this.high >= b.low);
+  includes = (n: number) => n >= this.low && n <= this.high;
+}
 
-  union = (b: Interval[]) => {
-    const intervals = [this, ...b].sort((a, b) => a.low - b.low);
+export class Intervals {
+  public intervals: Interval[] = [];
+  constructor(intervals: Interval[] | number[][]) {
+    if (isIntervalArray(intervals)) {
+      this.intervals = intervals as Interval[];
+    } else {
+      this.intervals = (intervals as number[][]).map(i => new Interval(i[0], i[1]));
+    }
+  }
+  add = (interval: Interval) => {
+    this.intervals.push(interval);
+    return this;
+  };
+  remove = (interval: Interval) => {
+    this.intervals = this.intervals.filter(i => i !== interval);
+    return this;
+  };
+  includes = (n: number) => this.intervals.some(i => i.includes(n));
 
-    const result = [];
-    let previous = intervals[0];
-
-    for (let i = 1; i < intervals.length; i += 1) {
-      if (previous.high + 1 >= intervals[i].low) {
-        previous = new Interval(previous.low, Math.max(previous.high, intervals[i].high));
+  merge = () => {
+    this.intervals = this.intervals.sort((a, b) => a.low - b.low);
+    const result: Interval[] = [];
+    let previous = this.intervals[0];
+    for (let i = 1; i < this.intervals.length; i++) {
+      if (previous.high + 1 >= this.intervals[i].low) {
+        previous = new Interval(previous.low, Math.max(previous.high, this.intervals[i].high));
       } else {
         result.push(previous);
-        previous = intervals[i];
+        previous = this.intervals[i];
       }
     }
-
     result.push(previous);
-
-    return result;
+    return new Intervals(result);
   };
-  includes = (n: number) => n >= this.low && n <= this.high;
+
+  get size() {
+    return this.intervals.reduce((acc, i) => acc + i.size, 0);
+  }
 }
 
 // itertools
@@ -723,3 +743,8 @@ export const intCode = (d: number[], inputs: number[], inst = 0, lastOutput = 0)
     }
   }
 };
+
+// typeguards
+
+export const isNumberArray = (a: unknown): a is number[] => isArray(a) && a.every(x => typeof x === 'number');
+export const isIntervalArray = (a: unknown): a is Interval[] => isArray(a) && a.every(x => x instanceof Interval);
